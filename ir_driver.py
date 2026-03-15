@@ -1,22 +1,42 @@
 # IR Driver for Nibe Heat Pump
 
 import time
-from machine import Pin
+
+# MicroPython-specific imports
+try:
+    from machine import Pin
+    MICROPYTHON = True
+except ImportError:
+    MICROPYTHON = False
 
 class IRDriver:
     def __init__(self, pin_number):
-        self.ir_pin = Pin(pin_number, Pin.OUT)
+        if not MICROPYTHON:
+            self.ir_pin = None
+            self.pin_number = pin_number
+        else:
+            self.ir_pin = Pin(pin_number, Pin.OUT)
         self.frequency = 38  # Default frequency in kHz
 
     def set_frequency(self, frequency):
+        if not MICROPYTHON:
+            print(f"IR Driver: Simulating frequency set to {frequency}kHz")
         self.frequency = frequency
 
     def mark(self, duration):
+        if not MICROPYTHON:
+            print(f"IR Driver: Simulating mark for {duration}us")
+            time.sleep_us(duration) if hasattr(time, 'sleep_us') else time.sleep(duration / 1000000)
+            return
         self.ir_pin.on()
         time.sleep_us(duration)
         self.ir_pin.off()
 
     def space(self, duration):
+        if not MICROPYTHON:
+            print(f"IR Driver: Simulating space for {duration}us")
+            time.sleep_us(duration) if hasattr(time, 'sleep_us') else time.sleep(duration / 1000000)
+            return
         self.ir_pin.off()
         time.sleep_us(duration)
 

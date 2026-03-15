@@ -11,5 +11,19 @@
     ],
     "python.analysis.extraPaths": [
         "~/.micropico-stubs/included"
-    ]
+    ],
+    "chat.tools.terminal.autoApprove": {
+        "/^python -m py_compile main\\.py http\\.py$/": {
+            "approve": true,
+            "matchCommandLine": true
+        },
+        "/^python -c \"from http import run_server; print\\('HTTP module imported successfully'\\)\"$/": {
+            "approve": true,
+            "matchCommandLine": true
+        },
+        "/^python -m py_compile main\\.py http\\.py config\\.py models/nibe\\.py ir_driver\\.py utils\\.py models/__init__\\.py$/": {
+            "approve": true,
+            "matchCommandLine": true
+        }
+    }
 }
