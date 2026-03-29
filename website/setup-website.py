@@ -14,7 +14,7 @@ from pathlib import Path
 
 class WebsiteSetup:
     def __init__(self):
-        self.domain = os.getenv('DOMAIN', 'bergfur.dyndns.org')
+        self.domain = os.getenv('DOMAIN', 'my.hidden.backend.com')
         self.pico_host = os.getenv('PICO_HOST', 'localhost')
         self.pico_port = os.getenv('PICO_PORT', 80)
         self.pico_username = os.getenv('PICO_USERNAME', 'admin')

@@ -32,7 +32,7 @@ Client connects to pi-hub:33333 -> forwarded to pico:80
 3. **Configure SSH key authentication (optional but recommended)**
    ```bash
    ssh-keygen -t rsa -b 4096 -f ~/.ssh/id_rsa -N ""
-   ssh-copy-id -p 20022 pi@bergfur.dyndns.org
+   ssh-copy-id -p 22222 pi@my.hidden.backend.com
    ```
 
 4. **Set up as a systemd service** (optional - for auto-restart)
@@ -51,7 +51,7 @@ Client connects to pi-hub:33333 -> forwarded to pico:80
    ExecStart=/home/pi/tunnel.sh
    Restart=always
    RestartSec=10
-   Environment="HUB_HOST=bergfur.dyndns.org"
+   Environment="HUB_HOST=my.hidden.backend.com"
    Environment="HUB_USER=pi"
    Environment="PICO_HOST=localhost"
    
@@ -91,10 +91,10 @@ Configuration is stored in `config.sh` (a simple key=value file that is **not co
 # Values can be overridden with environment variables
 
 # Hub (pi-hub) configuration
-HUB_HOST=bergfur.dyndns.org
-HUB_PORT=20022
+HUB_HOST=my.hidden.backend.com
+HUB_PORT=22222
 HUB_USER=pi
-HUB_FORWARD_PORT=33333
+HUB_FORWARD_PORT=22221
 
 # Pico endpoint configuration
 PICO_HOST=localhost
@@ -112,10 +112,10 @@ MAX_RETRY_DELAY=3600
 
 | Variable | Default | Description |
 |----------|---------|-------------|
-| `HUB_HOST` | `bergfur.dyndns.org` | Pi-hub hostname/IP |
-| `HUB_PORT` | `20022` | SSH port on pi-hub |
+| `HUB_HOST` | `my.hidden.backend.com` | Pi-hub hostname/IP |
+| `HUB_PORT` | `22222` | SSH port on pi-hub |
 | `HUB_USER` | `pi` | SSH user on pi-hub |
-| `HUB_FORWARD_PORT` | `33333` | Port on pi-hub to expose |
+| `HUB_FORWARD_PORT` | `22221` | Port on pi-hub to expose |
 | `PICO_HOST` | `localhost` | Pico hostname/IP (local network) |
 | `PICO_PORT` | `80` | Pico HTTP server port |
 | `SSH_KEY` | `$HOME/.ssh/id_rsa` | SSH private key path |
@@ -180,12 +180,12 @@ pgrep -f "tunnel.sh" | xargs kill
 
 2. **From pi-hub, test forwarded port:**
    ```bash
-   curl http://localhost:33333
+   curl http://localhost:22221
    ```
 
 3. **From remote client:**
    ```bash
-   curl http://bergfur.dyndns.org:33333
+   curl http://my.hidden.backend.com:22221
    ```
 
 ## Troubleshooting
@@ -202,11 +202,11 @@ pgrep -f "tunnel.sh" | xargs kill
 
 ### Permission denied (publickey)
 - Generate SSH key pair: `ssh-keygen -t rsa -b 4096`
-- Copy to pi-hub: `ssh-copy-id -p 20022 pi@bergfur.dyndns.org`
+- Copy to pi-hub: `ssh-copy-id -p 22222 pi@my.hidden.backend.com`
 - Or set password-based authentication
 
-### Cannot bind to port 33333
-- Port might already be in use: `ss -nltp | grep 33333`
+### Cannot bind to port 22221
+- Port might already be in use: `ss -nltp | grep 22221`
 - Kill existing process or use different port
 - Note: Ports below 1024 require root privileges
 

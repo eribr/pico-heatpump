@@ -11,10 +11,10 @@ CLOUDFLARE_API_TOKEN="${CLOUDFLARE_API_TOKEN:-}"
 CLOUDFLARE_ZONE_ID="${CLOUDFLARE_ZONE_ID:-}"
 CLOUDFLARE_ACCOUNT_ID="${CLOUDFLARE_ACCOUNT_ID:-}"
 
-DOMAIN_NAME="oland.bergfur.se"
-ORIGIN_HOST="bergfur.dyndns.org"
-ORIGIN_PORT="66443"
-ZONE_NAME="bergfur.se"  # Your domain zone in Cloudflare
+DOMAIN_NAME="hidden.example.com"
+ORIGIN_HOST="my.hidden.backend.com"
+ORIGIN_PORT="443"
+ZONE_NAME="example.com"  # Your domain zone in Cloudflare
 
 # Colors for output
 RED='\033[0;31m'

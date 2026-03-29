@@ -35,7 +35,7 @@ Beautiful HTML interface with PHP API bridge for secure heat pump control:
 Free Cloudflare proxy automation to securely expose your internal server:
 - **DNS Proxy (Orange Cloud)**: Hides your real server IP from the public internet
 - **Automatic Setup**: Python script for easy configuration
-- **Security**: Never exposes `bergfur.dyndns.org:66443` - only public proxy domain visible
+- **Security**: Never exposes `my.hidden.backend.com:443` - only public proxy domain visible
 - **[Cloudflare Setup Documentation](cloudflare/README.md)** - Complete proxy configuration
 
 ## Quick Start
@@ -61,7 +61,7 @@ cd website/
 sudo python3 setup-website.py
 # Option B: Bash  
 sudo ./setup-website.sh
-# Then access: https://bergfur.dyndns.org/
+# Then access: https://my.hidden.backend.com/
 ```
 
 ### 4. Set up Cloudflare Proxy (Optional but Recommended)
@@ -75,10 +75,10 @@ cd cloudflare/
 ### 5. Access Remotely
 ```
 # Public interface (via Cloudflare proxy):
-https://oland.bergfur.se/api/status
+https://hidden.example.com/api/status
 
 # Web interface (local):
-https://bergfur.dyndns.org/
+https://my.hidden.backend.com/
 
 # Private interface (via SSH tunnel):
 http://your-pi-hub:33333/api/status

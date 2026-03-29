@@ -33,7 +33,7 @@ website/
 ### 1. Set Environment Variables (optional)
 
 ```bash
-export DOMAIN="bergfur.dyndns.org"
+export DOMAIN="my.hidden.backend.com"
 export PICO_HOST="192.168.1.100"          # Pico IP or hostname
 export PICO_PORT="80"                     # Pico API port
 export PICO_USERNAME="admin"              # Pico API username
@@ -60,7 +60,7 @@ During setup, you will be prompted for:
 
 Open browser:
 ```
-https://bergfur.dyndns.org/
+https://my.hidden.backend.com/
 ```
 
 **Note:** You'll see an SSL certificate warning (self-signed). Click "Accept risk" or "Proceed anyway" to continue.
@@ -309,20 +309,20 @@ You can also interact with the API directly (via the PHP bridge) using curl:
 
 ```bash
 # Get status (with basic auth)
-curl -k -u username:password https://bergfur.dyndns.org/heatpump-api.php/status
+curl -k -u username:password https://my.hidden.backend.com/heatpump-api.php/status
 
 # Power control (with basic auth)
-curl -k -u username:password -X PUT https://bergfur.dyndns.org/heatpump-api.php/power/on
-curl -k -u username:password -X PUT https://bergfur.dyndns.org/heatpump-api.php/power/off
+curl -k -u username:password -X PUT https://my.hidden.backend.com/heatpump-api.php/power/on
+curl -k -u username:password -X PUT https://my.hidden.backend.com/heatpump-api.php/power/off
 
 # Set temperature to 22°C (with basic auth)
-curl -k -u username:password -X PUT https://bergfur.dyndns.org/heatpump-api.php/temp/22
+curl -k -u username:password -X PUT https://my.hidden.backend.com/heatpump-api.php/temp/22
 
 # Set mode to cool (with basic auth)
-curl -k -u username:password -X PUT https://bergfur.dyndns.org/heatpump-api.php/mode/cool
+curl -k -u username:password -X PUT https://my.hidden.backend.com/heatpump-api.php/mode/cool
 
 # Set fan speed (with basic auth)
-curl -k -u username:password -X PUT https://bergfur.dyndns.org/heatpump-api.php/fan/silent
+curl -k -u username:password -X PUT https://my.hidden.backend.com/heatpump-api.php/fan/silent
 ```
 
 **Note:** 
@@ -421,8 +421,8 @@ This website works perfectly with the Cloudflare proxy setup in the [../cloudfla
 **Setup flow:**
 1. Set up this website (you are here)
 2. Set up Cloudflare proxy to expose website to internet
-3. Access: `https://oland.bergfur.se/` (via Cloudflare)
-4. Or locally: `https://bergfur.dyndns.org/` (direct)
+3. Access: `https://hidden.example.com/` (via Cloudflare)
+4. Or locally: `https://my.hidden.backend.com/` (direct)
 
 See [../cloudflare/README.md](../cloudflare/README.md) for proxy setup.
 

@@ -1,6 +1,6 @@
 # Cloudflare Free Proxy Setup
 
-This folder contains Python automation for setting up a Cloudflare proxy to hide your internal server address (`bergfur.dyndns.org:66443`) behind a public domain (`oland.bergfur.se`).
+This folder contains Python automation for setting up a Cloudflare proxy to hide your internal server address behind a public domain.
 
 ## Overview
 
@@ -14,8 +14,8 @@ This folder contains Python automation for setting up a Cloudflare proxy to hide
 ## Prerequisites
 
 1. **Cloudflare Account**: https://dash.cloudflare.com/
-2. **Domain**: Your domain (`bergfur.se`) must be set to use Cloudflare nameservers
-3. **Valid SSL Certificate**: Your origin server must have a valid HTTPS certificate on port 66443
+2. **Domain**: Your domain must be set to use Cloudflare nameservers
+3. **Valid SSL Certificate**: Your origin server must have a valid HTTPS certificate on port 443
 4. **API Token**: Generate one at https://dash.cloudflare.com/profile/api-tokens
    - Permissions needed: "Zone / DNS / Edit"
 
@@ -64,10 +64,10 @@ Edit `config.json` with your credentials:
     "zone_id": "your-zone-id-here"
   },
   "proxy": {
-    "subdomain": "oland",
-    "domain_zone": "bergfur.se",
-    "origin": "bergfur.dyndns.org",
-    "origin_port": 66443
+    "subdomain": "hidden",
+    "domain_zone": "example.com",
+    "origin": "my.hidden.backend.com",
+    "origin_port": 443
   }
 }
 ```
@@ -94,8 +94,8 @@ python3 setup-cloudflare.py
 
 ### DNS Record
 - **Type**: CNAME (proxied)
-- **Name**: `oland.bergfur.se`
-- **Points to**: `bergfur.dyndns.org`
+- **Name**: `hidden.example.com`
+- **Points to**: `my.hidden.backend.com`
 - **Proxied**: YES (Orange Cloud) - This hides your real IP!
 
 ### SSL/TLS Configuration
@@ -123,23 +123,23 @@ Example iptables rule (Linux):
 ```bash
 # Whitelist Cloudflare IPs and localhost
 for ip in $(curl -s https://www.cloudflare.com/ips-v4); do
-  iptables -A INPUT -p tcp --dport 66443 -s $ip -j ACCEPT
+  iptables -A INPUT -p tcp --dport 443 -s $ip -j ACCEPT
 done
 
 # Whitelist IPv6 if applicable
 for ip in $(curl -s https://www.cloudflare.com/ips-v6); do
-  ip6tables -A INPUT -p tcp --dport 66443 -s $ip -j ACCEPT
+  ip6tables -A INPUT -p tcp --dport 443 -s $ip -j ACCEPT
 done
 
 # Drop all other traffic to the port
-iptables -A INPUT -p tcp --dport 66443 -j DROP
+iptables -A INPUT -p tcp --dport 443 -j DROP
 ```
 
 ### Origin Server HTTPS Certificate
 
 Your origin server **must** have a valid HTTPS certificate for:
-- Domain: `bergfur.dyndns.org`
-- Port: `66443`
+- Domain: `my.hidden.backend.com`
+- Port: `443`
 
 Options:
 1. Use Let's Encrypt (free): https://letsencrypt.org/
@@ -149,21 +149,21 @@ Options:
 
 ### Test DNS Resolution
 ```bash
-nslookup oland.bergfur.se
+nslookup hidden.example.com
 # Should return Cloudflare IPs, NOT your real server IP
 ```
 
 ### Test HTTPS Connection
 ```bash
 # Test the proxy endpoint
-curl -v https://oland.bergfur.se/
+curl -v https://hidden.example.com/
 
 # You should see Cloudflare's SSL certificate, not your origin cert
 ```
 
 ### Check x-via-cloudflare Header
 ```bash
-curl -I https://oland.bergfur.se/
+curl -I https://hidden.example.com/
 # Look for: x-via-cloudflare header
 ```
 
@@ -172,15 +172,15 @@ curl -I https://oland.bergfur.se/
 ### DNS not resolving
 - Ensure your domain's nameservers are set to Cloudflare
 - Wait up to 48 hours for DNS propagation
-- Check: `whois bergfur.se`
+- Check: `whois example.com`
 
 ### SSL Certificate Error
-- Verify origin server has valid certificate on port 66443
-- Check certificate brand matches `bergfur.dyndns.org`
+- Verify origin server has valid certificate on port 443
+- Check certificate brand matches `my.hidden.backend.com`
 
 ### Origin Connection Failed
-- Verify origin server is accessible: `curl -k https://bergfur.dyndns.org:66443/`
-- Check firewall rules allow port 66443
+- Verify origin server is accessible: `curl -k https://my.hidden.backend.com:443/`
+- Check firewall rules allow port 443
 - Verify Cloudflare IP ranges are whitelisted on origin
 
 ### API Token Errors

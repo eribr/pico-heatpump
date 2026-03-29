@@ -49,9 +49,9 @@ class CloudflareProxySetup:
             sys.exit(1)
     
     def create_or_update_dns_record(self, subdomain: str, origin: str, 
-                                     origin_port: int = 66443) -> str:
+                                     origin_port: int = 443) -> str:
         """Create or update proxied DNS record"""
-        full_domain = f"{subdomain}.bergfur.se"  # Adjust zone as needed
+        full_domain = f"{subdomain}.example.com"  # Adjust zone as needed
         
         print(f"Setting up DNS record: {full_domain} → {origin}:{origin_port} (proxied)")
         
@@ -119,7 +119,7 @@ class CloudflareProxySetup:
         else:
             print("⚠ Could not enable HTTPS redirect")
     
-    def setup(self, subdomain: str, origin: str, origin_port: int = 66443):
+    def setup(self, subdomain: str, origin: str, origin_port: int = 443):
         """Run full setup"""
         print("\n" + "="*60)
         print("  Cloudflare Free Proxy Setup")
@@ -134,12 +134,12 @@ class CloudflareProxySetup:
             print("✓ Setup Complete!")
             print("="*60)
             print(f"\nConfiguration:")
-            print(f"  Public Domain:    {subdomain}.bergfur.se")
+            print(f"  Public Domain:    {subdomain}.example.com")
             print(f"  Origin Server:    {origin}:{origin_port}")
             print(f"  Proxying:         Enabled (Orange Cloud)")
             print(f"\nNext Steps:")
-            print(f"  1. Verify DNS: nslookup {subdomain}.bergfur.se")
-            print(f"  2. Test HTTPS: curl https://{subdomain}.bergfur.se")
+            print(f"  1. Verify DNS: nslookup {subdomain}.example.com")
+            print(f"  2. Test HTTPS: curl https://{subdomain}.example.com")
             print(f"  3. Firewall: Restrict origin to Cloudflare IPs")
             print(f"     See: https://www.cloudflare.com/ips/\n")
     
@@ -187,8 +187,8 @@ def load_config() -> Dict:
         },
         "proxy": {
             "subdomain": "oland",
-            "origin": "bergfur.dyndns.org",
-            "origin_port": 66443
+            "origin": "my.hidden.backend.com",
+            "origin_port": 443
         }
     }
 
@@ -208,8 +208,8 @@ def main():
     # Extract proxy configuration
     proxy_config = config.get("proxy", {})
     subdomain = proxy_config.get("subdomain", "oland")
-    origin = proxy_config.get("origin", "bergfur.dyndns.org")
-    origin_port = proxy_config.get("origin_port", 66443)
+    origin = proxy_config.get("origin", "my.hidden.backend.com")
+    origin_port = proxy_config.get("origin_port", 443)
     
     # Run setup
     setup = CloudflareProxySetup(api_token, zone_id)
