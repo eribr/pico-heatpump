@@ -1,0 +1,27 @@
+# Ignore sensitive files
+.env
+terraform.tfvars
+.terraform/
+terraform.lock.hcl
+*.tfstate
+*.tfstate.*
+crash.log
+
+# Ignore dependency directories
+.terraform
+
+# Ignore IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+dist/
+build/

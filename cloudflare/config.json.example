@@ -1,0 +1,18 @@
+{
+  "cloudflare": {
+    "api_token": "your-api-token-here",
+    "zone_id": "your-zone-id-here",
+    "account_id": "your-account-id-here"
+  },
+  "proxy": {
+    "subdomain": "hidden",
+    "domain_zone": "example.com",
+    "origin": "my.hidden.backend.com",
+    "origin_port": 443
+  },
+  "ssl_tls": {
+    "mode": "full",
+    "min_tls_version": "1.2",
+    "always_https": true
+  }
+}

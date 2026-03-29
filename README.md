@@ -23,6 +23,21 @@ SSH tunneling scripts for secure remote access to the pico controller:
 - **Systemd Integration**: Can run as a background service
 - **[Tunnel Documentation](tunnel/README.md)** - Remote access setup and configuration
 
+### 🌐 [website/](website/) - Heatpump Web Interface
+Beautiful HTML interface with PHP API bridge for secure heat pump control:
+- **HTML Interface**: Responsive design for desktop, tablet, mobile
+- **PHP API Bridge**: Secure bridging between frontend and Pico API
+- **Self-signed SSL**: HTTPS encryption with auto-generated certificates
+- **Secure Credentials**: Pico API credentials stored outside web root
+- **[Website Setup Documentation](website/README.md)** - Complete setup and configuration
+
+### ☁️ [cloudflare/](cloudflare/) - Public HTTPS Proxy
+Free Cloudflare proxy automation to securely expose your internal server:
+- **DNS Proxy (Orange Cloud)**: Hides your real server IP from the public internet
+- **Automatic Setup**: Python script for easy configuration
+- **Security**: Never exposes `bergfur.dyndns.org:66443` - only public proxy domain visible
+- **[Cloudflare Setup Documentation](cloudflare/README.md)** - Complete proxy configuration
+
 ## Quick Start
 
 ### 1. Set up the Pico Controller
@@ -39,8 +54,33 @@ cd tunnel/
 # Run tunnel.sh on pi-satellite
 ```
 
-### 3. Access Remotely
+### 3. Set up Heatpump Web Interface
+```bash
+cd website/
+# Option A: Python (recommended)
+sudo python3 setup-website.py
+# Option B: Bash  
+sudo ./setup-website.sh
+# Then access: https://bergfur.dyndns.org/
 ```
+
+### 4. Set up Cloudflare Proxy (Optional but Recommended)
+```bash
+cd cloudflare/
+# Copy config.json.example to config.json
+# Edit config.json with your Cloudflare API token and Zone ID
+# Run: python setup-cloudflare.py
+```
+
+### 5. Access Remotely
+```
+# Public interface (via Cloudflare proxy):
+https://oland.bergfur.se/api/status
+
+# Web interface (local):
+https://bergfur.dyndns.org/
+
+# Private interface (via SSH tunnel):
 http://your-pi-hub:33333/api/status
 ```
 
