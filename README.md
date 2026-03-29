@@ -98,4 +98,4 @@ http://your-pi-hub:33333/api/status
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the GPL 2 License - see the [LICENSE](LICENSE) file for details.
