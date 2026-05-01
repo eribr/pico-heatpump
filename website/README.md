@@ -16,7 +16,9 @@ sudo apt update && sudo apt install -y apache2 php libapache2-mod-php php-curl p
 sudo systemctl restart apache2
 sudo chown -R erik:www-data /var/www/html
 sudo chmod -R 775 /var/www/html
-
+rm /var/www/html/index.html
+ln -s /home/erik/pico-heatpump/website/html/index.html /var/www/html
+ln -s /home/erik/pico-heatpump/website/html/heatpump.php /var/www/html
 ```
 
 ### 1. Requirements
