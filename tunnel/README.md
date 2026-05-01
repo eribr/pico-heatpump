@@ -37,10 +37,10 @@ Client connects to pi-hub:33333 -> forwarded to pico:80
 
 4. **Set up as a systemd service** (optional - for auto-restart)
    
-   Create `/etc/systemd/system/pico-tunnel.service`:
+   Create `/etc/systemd/system/tunnel.service`:
    ```ini
    [Unit]
-   Description=Pico Heat Pump SSH Tunnel
+   Description=Heat Pump SSH Tunnel
    After=network-online.target
    Wants=network-online.target
    
@@ -61,8 +61,8 @@ Client connects to pi-hub:33333 -> forwarded to pico:80
    
    Then enable and start:
    ```bash
-   sudo systemctl enable pico-tunnel
-   sudo systemctl start pico-tunnel
+   sudo systemctl enable tunnel
+   sudo systemctl start tunnel
    ```
 
 ### On pi-hub:
