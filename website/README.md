@@ -13,12 +13,37 @@ A lightweight PHP-based web interface to control a Nibe Heatpump via a REST API.
 Set up apache
 ```
 sudo apt update && sudo apt install -y apache2 php libapache2-mod-php php-curl php-json
-sudo systemctl restart apache2
 sudo chown -R erik:www-data /var/www/html
 sudo chmod -R 775 /var/www/html
 rm /var/www/html/index.html
 ln -s /home/erik/pico-heatpump/website/html/index.html /var/www/html
 ln -s /home/erik/pico-heatpump/website/html/heatpump.php /var/www/html
+
+# Enable SSL
+sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
+-keyout /etc/ssl/private/apache-selfsigned.key \
+-out /etc/ssl/certs/apache-selfsigned.crt
+sudo a2enmod ssl
+
+sudo cp /etc/apache2/sites-available/default-ssl.conf /etc/apache2/sites-available/heatpump-ssl.conf
+sudo nano /etc/apache2/sites-available/heatpump-ssl.conf
+# Change ssl-config to
+# SSLCertificateFile    /etc/ssl/certs/apache-selfsigned.crt
+# SSLCertificateKeyFile /etc/ssl/private/apache-selfsigned.key
+
+sudo a2ensite heatpump-ssl.conf
+
+# Disable non-ssl
+sudo a2enmod rewrite
+sudo nano /etc/apache2/sites-available/000-default.conf
+#In the VirtualHost:80 block, add
+# RewriteEngine On
+# RewriteCond %{HTTPS} off
+# RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+
+# Finally restart to make all config stick
+sudo systemctl restart apache2
 ```
 
 ### 1. Requirements
