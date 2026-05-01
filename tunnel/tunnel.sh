@@ -69,13 +69,7 @@ check_requirements() {
         error "SSH is not installed. Please install openssh-client."
     fi
 
-    if [[ ! -f "$SSH_KEY" ]]; then
-        warning "SSH key not found at $SSH_KEY"
-        warning "Using default SSH authentication (will prompt for password)"
-        SSH_KEY_OPT=""
-    else
-        SSH_KEY_OPT="-i $SSH_KEY"
-    fi
+    SSH_KEY_OPT=""
 
     log "Prerequisites check passed"
 }

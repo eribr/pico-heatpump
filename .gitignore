@@ -2,4 +2,3 @@ __pycache__/
 config.json
 config.sh
 .vscode/sftp.json
-tunnel/tunnel.service

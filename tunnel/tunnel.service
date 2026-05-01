@@ -1,0 +1,15 @@
+[Unit]
+Description=Heat Pump SSH Tunnel
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=erik
+WorkingDirectory=/home/erik
+ExecStart=/home/erik/pico-heatpump/tunnel/tunnel.sh
+Restart=always
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target
