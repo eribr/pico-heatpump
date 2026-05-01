@@ -8,7 +8,15 @@ This project consists of two main components that work together to provide remot
 
 ## Documentation
 
+### 🏠 [raspberrypi/](raspberrypi/) - Raspberry Pi Controller & REST API Server
+The core MicroPython application that runs on a Raspberry Pi Pico W. It provides:
+- **IR Communication**: Controls Nibe heat pump using infrared signals
+- **Web Server**: REST API with HTTP Basic Authentication
+- **Heat Pump Control**: Control power, temperature and fan settings
+- **[Raspberry pi Controller Documentation](raspberrypi/README.md)** - Detailed setup and API reference
+
 ### 🏠 [pico/](pico/) - Pico Controller
+*Untested* Does not use my heatpump model
 The core MicroPython application that runs on a Raspberry Pi Pico W. It provides:
 - **IR Communication**: Controls Nibe heat pumps using infrared signals
 - **Web Server**: REST API with HTTP Basic Authentication
