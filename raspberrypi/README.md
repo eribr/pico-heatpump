@@ -1,13 +1,19 @@
 ## Nibe Server
+Install prereqs:
+```
+sudo apt -y install python3-flask pigpio python3-pigpio
+sudo systemctl enable pigpiod
+sudo systemctl start pigpiod
+```
+
 Create a config.json like
 ```
 {
     "api_password": "your-password-here"
 }
-
 ```
 
-Run the REST server with
+Test the REST server with
 ```
 sudo pigpiod
 python3 nibe_server.py
@@ -20,6 +26,14 @@ curl -X PUT http://localhost:5000/api/temp/22 -u :your_secret_password_here
 
 # Turn Power Off
 curl -X PUT http://localhost:5000/api/power/off -u :your_secret_password_here
+```
+
+Add as a service by modifying the `nibe.service`to match your paths and enable it with
+```
+sudo cp nibe.service /etc/systemd/system/nibe.service
+sudo systemctl daemon-reload
+sudo systemctl enable nibe.service
+sudo systemctl start nibe.service
 ```
 
 ## Step-by-Step Connection

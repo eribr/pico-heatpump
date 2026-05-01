@@ -1,0 +1,15 @@
+[Unit]
+Description=Nibe IR REST API Server
+After=network.target pigpiod.service
+Requires=pigpiod.service
+
+[Service]
+ExecStart=/usr/bin/python3 /home/erik/pico-heatpump/raspberrypi/nibe_server.py
+WorkingDirectory=/home/erik/pico-heatpump/raspberrypi/
+StandardOutput=inherit
+StandardError=inherit
+Restart=always
+User=erik
+
+[Install]
+WantedBy=multi-user.target
