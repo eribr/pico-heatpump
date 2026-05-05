@@ -117,6 +117,7 @@ establish_tunnel() {
         -o StrictHostKeyChecking=accept-new \
         -o ServerAliveInterval=60 \
         -o ServerAliveCountMax=3 \
+        -o ExitOnForwardFailure=yes \
         $SSH_KEY_OPT \
         "$HUB_USER@$HUB_HOST"
 
