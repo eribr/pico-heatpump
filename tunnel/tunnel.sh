@@ -108,11 +108,13 @@ establish_tunnel() {
     info "  Hub: $HUB_USER@$HUB_HOST:$HUB_PORT"
     info "  Hub forward port: $HUB_FORWARD_PORT"
     info "  Pico endpoint: $PICO_HOST:$PICO_PORT"
+    info "  Hub forward SSH port: $HUB_FORWARD_SSH_PORT"
 
     # SSH reverse port forwarding with keep-alive options
     ssh \
         -N \
         -R "$HUB_FORWARD_PORT:$PICO_HOST:$PICO_PORT" \
+        -R "$HUB_FORWARD_SSH_PORT:$PICO_HOST:22" \
         -p "$HUB_PORT" \
         -o StrictHostKeyChecking=accept-new \
         -o ServerAliveInterval=60 \
