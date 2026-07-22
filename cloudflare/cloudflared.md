@@ -12,7 +12,7 @@ First, download and install the Cloudflare Tunnel client.
 ```bash
 
 # For 32-bit Raspberry Pi OS (older models/standard)
-curl -L --output cloudflared.deb https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-arm.deb
+curl -L --output cloudflared.deb https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-armhf.deb
 
 # For 64-bit Raspberry Pi OS (Pi 4 or Pi 5 running 64-bit)
 # curl -L --output cloudflared.deb https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-arm64.deb
