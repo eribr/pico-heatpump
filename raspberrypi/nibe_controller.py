@@ -1,11 +1,20 @@
 import sys
 import time
 import pigpio
+from nibe_protocol import generate_nibe_packet, get_current_time_gmt1
 
 
 class NibeController:
-    # --- MASTER FILES (Original Recordings) ---
-    MASTERS = {
+    """
+    Nibe IR Controller - Skickar dynamiskt genererade IR-signaler.
+    
+    Använder nibe_protocol.py för att generera korrekta byte-sekvenser
+    baserat på tid och inställningar istället för statiska inspelningar.
+    """
+    
+    # Legacy MASTERS (behålls för referens, används EJ längre)
+    # Ersatt av dynamisk generering via nibe_protocol.generate_nibe_packet()
+    _LEGACY_MASTERS = {
         "15": [
             6390,
             3180,
@@ -1302,9 +1311,9 @@ class NibeController:
             465,
         ],
     }
-
-    # --- ZONE CONFIGURATION ---
-    CONFIG = {
+    
+    # Legacy CONFIG (behålls för referens, används EJ längre)
+    _LEGACY_CONFIG = {
         15: {"base": "17", "flips": [23, 24, 59, 60, 61, 82, 85, 89]},
         16: {"base": "17", "flips": [22, 88]},
         17: {"base": "17", "flips": []},
@@ -1360,37 +1369,129 @@ class NibeController:
             return True
         return False
 
+    def _bytes_to_pulses(self, byte_packet):
+        """
+        Konverterar 11 bytes till IR-pulser (microseconds).
+        
+        Args:
+            byte_packet: Lista med 11 bytes
+            
+        Returns:
+            Lista med pulser (mark/space par)
+        """
+        # Header: 6370us mark, 3200us space
+        pulses = [6370, 3200]
+        
+        # För varje byte, skicka 8 bitar (LSB först)
+        for byte_val in byte_packet:
+            for bit_idx in range(8):
+                bit = (byte_val >> bit_idx) & 1
+                # Mark: ~420us
+                pulses.append(420)
+                # Space: ~2140us för 1, ~850us för 0
+                pulses.append(2140 if bit == 1 else 850)
+        
+        # Trailing pulses
+        pulses.extend([420, 2140, 420, 2140, 420])
+        
+        return pulses
+
     def set_temperature(self, temp):
-        if temp not in self.CONFIG:
-            print(f"Temperature {temp} is not supported.")
+        """Sätt temperatur med dynamisk byte-generering."""
+        if not (15 <= temp <= 30):
+            print(f"Temperature {temp} is out of range (15-30).")
             return False
 
-        c = self.CONFIG[temp]
-        base_pulses = list(self.MASTERS[c["base"]])
-
-        # Apply bit flips on the copied array
-        for bit_idx in c["flips"]:
-            pulse_idx = (bit_idx * 2) + 3
-            if pulse_idx < len(base_pulses):
-                # Toggle space length between 0 (~850us) and 1 (~2140us)
-                base_pulses[pulse_idx] = (
-                    2140 if base_pulses[pulse_idx] < 1500 else 850
-                )
-
-        print(f"Sending {temp}°C (Based on master {c['base']})")
-        return self._send_pulses(base_pulses)
+        # Hämta aktuell tid (GMT+1 för att matcha pumpen)
+        hour, minute = get_current_time_gmt1()
+        
+        # Generera byte-paket
+        byte_packet = generate_nibe_packet(
+            hour=hour,
+            minute=minute,
+            power="on",
+            mode=None,
+            temp=temp,
+            fan=None,
+            ifeel=False
+        )
+        
+        # Konvertera till pulser
+        pulses = self._bytes_to_pulses(byte_packet)
+        
+        print(f"Sending {temp}°C at {hour:02d}:{minute:02d} (GMT+1)")
+        return self._send_pulses(pulses)
 
     def power_on(self):
-        print("Sending Power ON command...")
-        return self._send_pulses(self.MASTERS["on"])
+        """Slå på värmepumpen."""
+        hour, minute = get_current_time_gmt1()
+        byte_packet = generate_nibe_packet(
+            hour=hour,
+            minute=minute,
+            power="on",
+            mode=None,
+            temp=None,
+            fan=None,
+            ifeel=False
+        )
+        pulses = self._bytes_to_pulses(byte_packet)
+        print(f"Sending Power ON at {hour:02d}:{minute:02d} (GMT+1)")
+        return self._send_pulses(pulses)
 
     def power_off(self):
-        print("Sending Power OFF command...")
-        return self._send_pulses(self.MASTERS["off"])
+        """Slå av värmepumpen."""
+        hour, minute = get_current_time_gmt1()
+        byte_packet = generate_nibe_packet(
+            hour=hour,
+            minute=minute,
+            power="off",
+            mode=None,
+            temp=None,
+            fan=None,
+            ifeel=False
+        )
+        pulses = self._bytes_to_pulses(byte_packet)
+        print(f"Sending Power OFF at {hour:02d}:{minute:02d} (GMT+1)")
+        return self._send_pulses(pulses)
 
     def set_fan_auto(self):
-        print("Sending Fan AUTO command...")
-        return self._send_pulses(self.MASTERS["auto"])
+        """Sätt fläkt till AUTO."""
+        hour, minute = get_current_time_gmt1()
+        byte_packet = generate_nibe_packet(
+            hour=hour,
+            minute=minute,
+            power="on",
+            mode=None,
+            temp=None,
+            fan="AUTO",
+            ifeel=False
+        )
+        pulses = self._bytes_to_pulses(byte_packet)
+        print(f"Sending Fan AUTO at {hour:02d}:{minute:02d} (GMT+1)")
+        return self._send_pulses(pulses)
+    
+    def set_mode(self, mode, fan=None):
+        """
+        Sätt driftläge (COOL/HEAT/FAN).
+        
+        Args:
+            mode: "COOL", "HEAT", eller "FAN"
+            fan: "AUTO", "1", "2", "3", eller None
+        """
+        hour, minute = get_current_time_gmt1()
+        byte_packet = generate_nibe_packet(
+            hour=hour,
+            minute=minute,
+            power="on",
+            mode=mode,
+            temp=None,
+            fan=fan,
+            ifeel=False
+        )
+        pulses = self._bytes_to_pulses(byte_packet)
+        fan_str = f" (fan={fan})" if fan else ""
+        print(f"Sending {mode}{fan_str} at {hour:02d}:{minute:02d} (GMT+1)")
+        return self._send_pulses(pulses)
 
     def close(self):
         if self.pi and self.pi.connected:

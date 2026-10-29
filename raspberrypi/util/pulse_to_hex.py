@@ -3,7 +3,8 @@ import os
 
 # Inställning: Vilken mapp ska vi skanna? 
 # '.' betyder aktuell mapp, eller ange 'recordings_batch'
-FOLDER_PATH = "recordings_batch" 
+#FOLDER_PATH = "recordings_batch" 
+FOLDER_PATH = "combo" 
 
 def pulses_to_hex(filename):
     with open(filename, 'r') as f:
