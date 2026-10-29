@@ -1,36 +1,36 @@
 """
 Nibe IR Protocol - Byte Generator
 
-Dynamisk generering av Nibe IR-paket baserat på reverse engineering av inspelningar.
-Ersätter statiska MASTERS med dynamisk kodning.
+Dynamic generation of Nibe IR packets based on reverse engineering of recordings.
+Replaces static MASTERS with dynamic encoding.
 """
 
 
 def generate_nibe_packet(hour, minute, power="on", mode=None, temp=None, fan=None, ifeel=False):
     """
-    Generera Nibe IR-paket (11 bytes) baserat på inställningar och tid.
+    Generate Nibe IR packet (11 bytes) based on settings and time.
     
     Args:
-        hour: Timme (0-23) - använd alltid GMT+1 för att matcha pumpen
-        minute: Minut (0-59)
-        power: "on" eller "off"
-        mode: "COOL", "HEAT", "FAN", eller None
-        temp: Temperatur (15-30) eller None
-        fan: "AUTO", "1", "2", "3", eller None
+        hour: Hour (0-23) - always use GMT+1 to match the heat pump
+        minute: Minute (0-59)
+        power: "on" or "off"
+        mode: "COOL", "HEAT", "FAN", or None
+        temp: Temperature (15-30) or None
+        fan: "AUTO", "1", "2", "3", or None
         ifeel: True/False
     
     Returns:
-        Lista med 11 bytes [B0..B10]
+        List of 11 bytes [B0..B10]
     
     Examples:
-        >>> generate_nibe_packet(14, 30, temp=23)  # 23°C kl 14:30
-        >>> generate_nibe_packet(23, 10, power="off")  # Stäng av
+        >>> generate_nibe_packet(14, 30, temp=23)  # 23°C at 14:30
+        >>> generate_nibe_packet(23, 10, power="off")  # Turn off
         >>> generate_nibe_packet(12, 45, mode="HEAT", fan="AUTO")
     """
-    # B0-B1: Konstant header
+    # B0-B1: Constant header
     packet = [0xAC, 0xF5, 0x00, 0x00, 0x00, 0xE0, 0x00, 0x00, 0x00, 0x00, 0x00]
     
-    # B2: Mode och temperatur
+    # B2: Mode and temperature
     if temp == 22:
         packet[2] = 0xA0
     elif temp == 23:
@@ -53,7 +53,7 @@ def generate_nibe_packet(hour, minute, power="on", mode=None, temp=None, fan=Non
     else:
         packet[2] = 0x60  # Default
     
-    # B3: Fan speed och temperatur-relaterat
+    # B3: Fan speed and temperature-related
     if temp == 24:
         packet[3] = 0x45
     elif temp in [22, 23]:
@@ -67,13 +67,13 @@ def generate_nibe_packet(hour, minute, power="on", mode=None, temp=None, fan=Non
     else:
         packet[3] = 0x44
     
-    # B4: Tid-relaterat (varierar med minut)
-    # Observerat: 0x0A för jämna minuter, 0x1A för udda
+    # B4: Time-related (varies with minute)
+    # Observed: 0x0A for even minutes, 0x1A for odd
     packet[4] = 0x1A if (minute % 2 == 1) else 0x0A
     
-    # B5-B6: Konstant (redan satt)
+    # B5-B6: Constant (already set)
     
-    # B7: Mode-specifik kod
+    # B7: Mode-specific code
     if temp == 22:
         packet[7] = 0xCF
     elif temp in [23, 24]:
@@ -89,18 +89,18 @@ def generate_nibe_packet(hour, minute, power="on", mode=None, temp=None, fan=Non
     else:
         packet[7] = 0x07
     
-    # B8: Minuter kodade i höga 6 bitar
-    # Formel: minut 10 → 0x2B, minut 11 → 0x2C
+    # B8: Minutes encoded in high 6 bits
+    # Formula: minute 10 → 0x2B, minute 11 → 0x2C
     if minute == 10:
         packet[8] = 0x2B
     elif minute == 11:
         packet[8] = 0x2C
     else:
-        # Generisk formel
+        # Generic formula
         low_bits = 0x03 if (minute % 2 == 0) else 0x00
         packet[8] = (minute << 2) | low_bits
     
-    # B9: Power och IFeel
+    # B9: Power and IFeel
     if power == "off":
         packet[9] = 0x10
     elif ifeel:
@@ -108,9 +108,9 @@ def generate_nibe_packet(hour, minute, power="on", mode=None, temp=None, fan=Non
     else:
         packet[9] = 0x30
     
-    # B10: Checksumma
-    # Formel: (sum(B0:B1 + B3:B9) * 4 + 0x8A) & 0xFF
-    # OBS: Skippar B2!
+    # B10: Checksum
+    # Formula: (sum(B0:B1 + B3:B9) * 4 + 0x8A) & 0xFF
+    # NOTE: Skips B2!
     bytes_to_sum = packet[0:2] + packet[3:10]
     packet[10] = (sum(bytes_to_sum) * 4 + 0x8A) & 0xFF
     
@@ -119,15 +119,15 @@ def generate_nibe_packet(hour, minute, power="on", mode=None, temp=None, fan=Non
 
 def get_current_time_gmt1():
     """
-    Hämta aktuell tid i GMT+1 (sommartid).
-    Pumpen är låst på sommartid och byter aldrig.
+    Get current time in GMT+1 (summer time).
+    The heat pump is locked to summer time and never switches.
     
     Returns:
         tuple: (hour, minute)
     """
     import time
     
-    # Hämta UTC tid och lägg till 1 timme
+    # Get UTC time and add 1 hour
     utc_time = time.gmtime()
     hour = (utc_time.tm_hour + 1) % 24
     minute = utc_time.tm_min
@@ -140,7 +140,7 @@ if __name__ == "__main__":
     print("Testing Nibe Protocol Generator")
     print("=" * 60)
     
-    # Test några kombinationer
+    # Test some combinations
     test_cases = [
         {"desc": "Temp 22°C, 14:30", "hour": 14, "minute": 30, "temp": 22},
         {"desc": "Temp 23°C, 10:00", "hour": 10, "minute": 0, "temp": 23},
