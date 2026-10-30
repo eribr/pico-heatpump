@@ -56,7 +56,7 @@ function write_state_cache($cache_path, $state) {
 }
 
 function fetch_state_from_api($api_base_url, $api_password) {
-    $url = $api_base_url . '/api/state';
+    $url = $api_base_url . '/state';
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, $url);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -81,7 +81,7 @@ function fetch_state_from_api($api_base_url, $api_password) {
 }
 
 function send_state_to_api($api_base_url, $api_password, $payload) {
-    $url = $api_base_url . '/api/set';
+    $url = $api_base_url . '/set';
     $json = json_encode($payload);
 
     $ch = curl_init();
