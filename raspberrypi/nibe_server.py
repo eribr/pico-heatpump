@@ -39,6 +39,14 @@ class NibeServer:
 
     def _setup_routes(self):
 
+        @self.app.route('/api/state', methods=['GET'])
+        @self.require_auth
+        def get_state():
+            return jsonify({
+                "status": "ok",
+                "state": self.controller.state.copy()
+            })
+        
         @self.app.route('/api/set', methods=['PUT', 'POST'])
         @self.app.route('/api/state', methods=['PUT', 'POST'])
         @self.require_auth
