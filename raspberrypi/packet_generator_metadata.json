@@ -2,7 +2,7 @@
   "_description": "Decoded packet-generator verification metadata for combo and recordings_batch pulse captures.",
   "_notes": [
     "Payload spaces are decoded with a 1500 us threshold, LSB-first, into up to 11 bytes.",
-    "The candidate minute is extracted from B8 bits 2-7. The batch pulse captures do not establish an hour; combo hours are retained from their prior annotations.",
+    "Combo recordings were captured around 23:15 and may span a minute boundary. Per-record minute values extracted from B8 bits 2-7 are approximate hypotheses, not exact capture timestamps. Batch captures do not establish an hour.",
     "Batch settings only assert the named target; other mode fields remain unknown."
   ],
   "recordings": {

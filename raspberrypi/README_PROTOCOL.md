@@ -53,7 +53,7 @@ curl -u :password \
 
 ## Time Encoding and DST
 
-The controller supplies GMT+1 hour and minute values to the generator. The current generator does not use `hour`; its B4/B8 clock encoding is not verified across both capture groups. The batch recordings have no reliable hour annotation, and their B4 value differs from the combo captures.
+The combo recordings were captured around 23:15. Pulse capture can cross a minute boundary, so the per-record minute decoded from B8 may differ from the wall-clock capture minute and should be treated as approximate. The current generator does not use `hour`; its B4/B8 clock encoding is not verified across both capture groups. The batch recordings have no reliable hour annotation, and their B4 value differs from the combo captures.
 
 ## Byte Protocol (simplified)
 
