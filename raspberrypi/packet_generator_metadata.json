@@ -1,0 +1,1278 @@
+{
+  "_description": "Decoded packet-generator verification metadata for combo and recordings_batch pulse captures.",
+  "_notes": [
+    "Payload spaces are decoded with a 1500 us threshold, LSB-first, into up to 11 bytes.",
+    "The candidate minute is extracted from B8 bits 2-7. The batch pulse captures do not establish an hour; combo hours are retained from their prior annotations.",
+    "fan_1.json is a truncated 29-bit capture and is retained as incomplete, not compared as a full packet. Batch settings only assert the named target; other mode fields remain unknown."
+  ],
+  "recordings": {
+    "combo/cold.json": {
+      "source_group": "combo",
+      "source_file": "util/combo/cold.json",
+      "complete": true,
+      "pulse_count": 183,
+      "settings_source": "existing combo annotations",
+      "time": {
+        "hour": 23,
+        "minute": 10,
+        "minute_source": "B8 bits 2-7",
+        "total_minutes": 1390
+      },
+      "settings": {
+        "power": "on",
+        "mode": "COOL",
+        "temp": null,
+        "fan": null,
+        "ifeel": false
+      },
+      "bytes": {
+        "B0": "0xAC",
+        "B1": "0xF5",
+        "B2": "0x40",
+        "B3": "0x64",
+        "B4": "0x0A",
+        "B5": "0xE0",
+        "B6": "0x00",
+        "B7": "0xF7",
+        "B8": "0x2B",
+        "B9": "0x30",
+        "B10": "0x0E"
+      },
+      "hex_string": "AC F5 40 64 0A E0 00 F7 2B 30 0E",
+      "packet_bit_count": 88,
+      "trailing_space_bit_count": 2
+    },
+    "combo/cold_auto.json": {
+      "source_group": "combo",
+      "source_file": "util/combo/cold_auto.json",
+      "complete": true,
+      "pulse_count": 183,
+      "settings_source": "existing combo annotations",
+      "time": {
+        "hour": 23,
+        "minute": 10,
+        "minute_source": "B8 bits 2-7",
+        "total_minutes": 1390
+      },
+      "settings": {
+        "power": "on",
+        "mode": "COOL",
+        "temp": null,
+        "fan": "AUTO",
+        "ifeel": false
+      },
+      "bytes": {
+        "B0": "0xAC",
+        "B1": "0xF5",
+        "B2": "0x50",
+        "B3": "0x64",
+        "B4": "0x0A",
+        "B5": "0xE0",
+        "B6": "0x00",
+        "B7": "0xFF",
+        "B8": "0x2B",
+        "B9": "0x30",
+        "B10": "0x6E"
+      },
+      "hex_string": "AC F5 50 64 0A E0 00 FF 2B 30 6E",
+      "packet_bit_count": 88,
+      "trailing_space_bit_count": 2
+    },
+    "combo/cold_moisture.json": {
+      "source_group": "combo",
+      "source_file": "util/combo/cold_moisture.json",
+      "complete": true,
+      "pulse_count": 183,
+      "settings_source": "existing combo annotations",
+      "time": {
+        "hour": 23,
+        "minute": 10,
+        "minute_source": "B8 bits 2-7",
+        "total_minutes": 1390
+      },
+      "settings": {
+        "power": "on",
+        "mode": "COOL",
+        "temp": null,
+        "fan": null,
+        "ifeel": false
+      },
+      "bytes": {
+        "B0": "0xAC",
+        "B1": "0xF5",
+        "B2": "0x48",
+        "B3": "0x64",
+        "B4": "0x0A",
+        "B5": "0xE0",
+        "B6": "0x00",
+        "B7": "0xF7",
+        "B8": "0x2B",
+        "B9": "0x30",
+        "B10": "0x2E"
+      },
+      "hex_string": "AC F5 48 64 0A E0 00 F7 2B 30 2E",
+      "packet_bit_count": 88,
+      "trailing_space_bit_count": 2
+    },
+    "combo/fan_1.json": {
+      "source_group": "combo",
+      "source_file": "util/combo/fan_1.json",
+      "complete": false,
+      "pulse_count": 61,
+      "settings_source": "filename target; capture incomplete",
+      "time": {
+        "hour": null,
+        "minute": null,
+        "minute_source": null
+      },
+      "settings": {
+        "power": "on",
+        "mode": "FAN",
+        "temp": null,
+        "fan": "1",
+        "ifeel": false
+      },
+      "bytes": {
+        "B0": "0xAC",
+        "B1": "0xF5",
+        "B2": "0x60"
+      },
+      "hex_string": "AC F5 60",
+      "packet_bit_count": 29,
+      "trailing_space_bit_count": 0
+    },
+    "combo/fan_2.json": {
+      "source_group": "combo",
+      "source_file": "util/combo/fan_2.json",
+      "complete": true,
+      "pulse_count": 183,
+      "settings_source": "existing combo annotations",
+      "time": {
+        "hour": 23,
+        "minute": 10,
+        "minute_source": "B8 bits 2-7",
+        "total_minutes": 1390
+      },
+      "settings": {
+        "power": "on",
+        "mode": "FAN",
+        "temp": null,
+        "fan": "2",
+        "ifeel": false
+      },
+      "bytes": {
+        "B0": "0xAC",
+        "B1": "0xF5",
+        "B2": "0x60",
+        "B3": "0x54",
+        "B4": "0x0A",
+        "B5": "0xE0",
+        "B6": "0x00",
+        "B7": "0xDF",
+        "B8": "0x2B",
+        "B9": "0x30",
+        "B10": "0xEE"
+      },
+      "hex_string": "AC F5 60 54 0A E0 00 DF 2B 30 EE",
+      "packet_bit_count": 88,
+      "trailing_space_bit_count": 2
+    },
+    "combo/fan_3.json": {
+      "source_group": "combo",
+      "source_file": "util/combo/fan_3.json",
+      "complete": true,
+      "pulse_count": 183,
+      "settings_source": "existing combo annotations",
+      "time": {
+        "hour": 23,
+        "minute": 10,
+        "minute_source": "B8 bits 2-7",
+        "total_minutes": 1390
+      },
+      "settings": {
+        "power": "on",
+        "mode": "FAN",
+        "temp": null,
+        "fan": "3",
+        "ifeel": false
+      },
+      "bytes": {
+        "B0": "0xAC",
+        "B1": "0xF5",
+        "B2": "0x60",
+        "B3": "0x5C",
+        "B4": "0x0A",
+        "B5": "0xE0",
+        "B6": "0x00",
+        "B7": "0xDF",
+        "B8": "0x2B",
+        "B9": "0x30",
+        "B10": "0x0E"
+      },
+      "hex_string": "AC F5 60 5C 0A E0 00 DF 2B 30 0E",
+      "packet_bit_count": 88,
+      "trailing_space_bit_count": 2
+    },
+    "combo/fan_3_auto.json": {
+      "source_group": "combo",
+      "source_file": "util/combo/fan_3_auto.json",
+      "complete": true,
+      "pulse_count": 183,
+      "settings_source": "existing combo annotations",
+      "time": {
+        "hour": 23,
+        "minute": 10,
+        "minute_source": "B8 bits 2-7",
+        "total_minutes": 1390
+      },
+      "settings": {
+        "power": "on",
+        "mode": "FAN",
+        "temp": null,
+        "fan": "AUTO",
+        "ifeel": false
+      },
+      "bytes": {
+        "B0": "0xAC",
+        "B1": "0xF5",
+        "B2": "0x60",
+        "B3": "0x44",
+        "B4": "0x0A",
+        "B5": "0xE0",
+        "B6": "0x00",
+        "B7": "0xDF",
+        "B8": "0x2B",
+        "B9": "0x30",
+        "B10": "0xAE"
+      },
+      "hex_string": "AC F5 60 44 0A E0 00 DF 2B 30 AE",
+      "packet_bit_count": 88,
+      "trailing_space_bit_count": 2
+    },
+    "combo/heat_1.json": {
+      "source_group": "combo",
+      "source_file": "util/combo/heat_1.json",
+      "complete": true,
+      "pulse_count": 183,
+      "settings_source": "existing combo annotations",
+      "time": {
+        "hour": 23,
+        "minute": 10,
+        "minute_source": "B8 bits 2-7",
+        "total_minutes": 1390
+      },
+      "settings": {
+        "power": "on",
+        "mode": "HEAT",
+        "temp": null,
+        "fan": null,
+        "ifeel": false
+      },
+      "bytes": {
+        "B0": "0xAC",
+        "B1": "0xF5",
+        "B2": "0x70",
+        "B3": "0x44",
+        "B4": "0x0A",
+        "B5": "0xE0",
+        "B6": "0x00",
+        "B7": "0xEF",
+        "B8": "0x2B",
+        "B9": "0x30",
+        "B10": "0x2E"
+      },
+      "hex_string": "AC F5 70 44 0A E0 00 EF 2B 30 2E",
+      "packet_bit_count": 88,
+      "trailing_space_bit_count": 2
+    },
+    "combo/heat_2.json": {
+      "source_group": "combo",
+      "source_file": "util/combo/heat_2.json",
+      "complete": true,
+      "pulse_count": 183,
+      "settings_source": "existing combo annotations",
+      "time": {
+        "hour": 23,
+        "minute": 10,
+        "minute_source": "B8 bits 2-7",
+        "total_minutes": 1390
+      },
+      "settings": {
+        "power": "on",
+        "mode": "HEAT",
+        "temp": null,
+        "fan": null,
+        "ifeel": false
+      },
+      "bytes": {
+        "B0": "0xAC",
+        "B1": "0xF5",
+        "B2": "0x60",
+        "B3": "0x44",
+        "B4": "0x0A",
+        "B5": "0xE0",
+        "B6": "0x00",
+        "B7": "0xEF",
+        "B8": "0x2B",
+        "B9": "0x30",
+        "B10": "0xEE"
+      },
+      "hex_string": "AC F5 60 44 0A E0 00 EF 2B 30 EE",
+      "packet_bit_count": 88,
+      "trailing_space_bit_count": 2
+    },
+    "combo/heat_auto.json": {
+      "source_group": "combo",
+      "source_file": "util/combo/heat_auto.json",
+      "complete": true,
+      "pulse_count": 183,
+      "settings_source": "existing combo annotations",
+      "time": {
+        "hour": 23,
+        "minute": 10,
+        "minute_source": "B8 bits 2-7",
+        "total_minutes": 1390
+      },
+      "settings": {
+        "power": "on",
+        "mode": "HEAT",
+        "temp": null,
+        "fan": "AUTO",
+        "ifeel": false
+      },
+      "bytes": {
+        "B0": "0xAC",
+        "B1": "0xF5",
+        "B2": "0x68",
+        "B3": "0x44",
+        "B4": "0x0A",
+        "B5": "0xE0",
+        "B6": "0x00",
+        "B7": "0xEF",
+        "B8": "0x2B",
+        "B9": "0x30",
+        "B10": "0x0E"
+      },
+      "hex_string": "AC F5 68 44 0A E0 00 EF 2B 30 0E",
+      "packet_bit_count": 88,
+      "trailing_space_bit_count": 2
+    },
+    "combo/ifeel.json": {
+      "source_group": "combo",
+      "source_file": "util/combo/ifeel.json",
+      "complete": true,
+      "pulse_count": 183,
+      "settings_source": "existing combo annotations",
+      "time": {
+        "hour": 23,
+        "minute": 11,
+        "minute_source": "B8 bits 2-7",
+        "total_minutes": 1391
+      },
+      "settings": {
+        "power": "on",
+        "mode": null,
+        "temp": null,
+        "fan": null,
+        "ifeel": true
+      },
+      "bytes": {
+        "B0": "0xAC",
+        "B1": "0xF5",
+        "B2": "0x60",
+        "B3": "0x64",
+        "B4": "0x1A",
+        "B5": "0xE0",
+        "B6": "0x00",
+        "B7": "0x07",
+        "B8": "0x2C",
+        "B9": "0xB0",
+        "B10": "0x12"
+      },
+      "hex_string": "AC F5 60 64 1A E0 00 07 2C B0 12",
+      "packet_bit_count": 88,
+      "trailing_space_bit_count": 2
+    },
+    "combo/no_ifeel.json": {
+      "source_group": "combo",
+      "source_file": "util/combo/no_ifeel.json",
+      "complete": true,
+      "pulse_count": 183,
+      "settings_source": "existing combo annotations",
+      "time": {
+        "hour": 23,
+        "minute": 11,
+        "minute_source": "B8 bits 2-7",
+        "total_minutes": 1391
+      },
+      "settings": {
+        "power": "on",
+        "mode": null,
+        "temp": null,
+        "fan": null,
+        "ifeel": false
+      },
+      "bytes": {
+        "B0": "0xAC",
+        "B1": "0xF5",
+        "B2": "0x60",
+        "B3": "0x64",
+        "B4": "0x1A",
+        "B5": "0xE0",
+        "B6": "0x00",
+        "B7": "0x07",
+        "B8": "0x2C",
+        "B9": "0x30",
+        "B10": "0x12"
+      },
+      "hex_string": "AC F5 60 64 1A E0 00 07 2C 30 12",
+      "packet_bit_count": 88,
+      "trailing_space_bit_count": 2
+    },
+    "combo/off.json": {
+      "source_group": "combo",
+      "source_file": "util/combo/off.json",
+      "complete": true,
+      "pulse_count": 183,
+      "settings_source": "existing combo annotations",
+      "time": {
+        "hour": 23,
+        "minute": 11,
+        "minute_source": "B8 bits 2-7",
+        "total_minutes": 1391
+      },
+      "settings": {
+        "power": "off",
+        "mode": null,
+        "temp": null,
+        "fan": null,
+        "ifeel": false
+      },
+      "bytes": {
+        "B0": "0xAC",
+        "B1": "0xF5",
+        "B2": "0x60",
+        "B3": "0x64",
+        "B4": "0x1A",
+        "B5": "0xE0",
+        "B6": "0x00",
+        "B7": "0x07",
+        "B8": "0x2C",
+        "B9": "0x10",
+        "B10": "0x92"
+      },
+      "hex_string": "AC F5 60 64 1A E0 00 07 2C 10 92",
+      "packet_bit_count": 88,
+      "trailing_space_bit_count": 2
+    },
+    "combo/on.json": {
+      "source_group": "combo",
+      "source_file": "util/combo/on.json",
+      "complete": true,
+      "pulse_count": 183,
+      "settings_source": "existing combo annotations",
+      "time": {
+        "hour": 23,
+        "minute": 11,
+        "minute_source": "B8 bits 2-7",
+        "total_minutes": 1391
+      },
+      "settings": {
+        "power": "on",
+        "mode": null,
+        "temp": null,
+        "fan": null,
+        "ifeel": false
+      },
+      "bytes": {
+        "B0": "0xAC",
+        "B1": "0xF5",
+        "B2": "0x60",
+        "B3": "0x64",
+        "B4": "0x1A",
+        "B5": "0xE0",
+        "B6": "0x00",
+        "B7": "0x0F",
+        "B8": "0x2C",
+        "B9": "0x30",
+        "B10": "0x32"
+      },
+      "hex_string": "AC F5 60 64 1A E0 00 0F 2C 30 32",
+      "packet_bit_count": 88,
+      "trailing_space_bit_count": 2
+    },
+    "combo/temp_22.json": {
+      "source_group": "combo",
+      "source_file": "util/combo/temp_22.json",
+      "complete": true,
+      "pulse_count": 183,
+      "settings_source": "existing combo annotations",
+      "time": {
+        "hour": 23,
+        "minute": 10,
+        "minute_source": "B8 bits 2-7",
+        "total_minutes": 1390
+      },
+      "settings": {
+        "power": "on",
+        "mode": null,
+        "temp": 22,
+        "fan": null,
+        "ifeel": false
+      },
+      "bytes": {
+        "B0": "0xAC",
+        "B1": "0xF5",
+        "B2": "0xA0",
+        "B3": "0x44",
+        "B4": "0x0A",
+        "B5": "0xE0",
+        "B6": "0x00",
+        "B7": "0xCF",
+        "B8": "0x2B",
+        "B9": "0x30",
+        "B10": "0x6E"
+      },
+      "hex_string": "AC F5 A0 44 0A E0 00 CF 2B 30 6E",
+      "packet_bit_count": 88,
+      "trailing_space_bit_count": 2
+    },
+    "combo/temp_23.json": {
+      "source_group": "combo",
+      "source_file": "util/combo/temp_23.json",
+      "complete": true,
+      "pulse_count": 183,
+      "settings_source": "existing combo annotations",
+      "time": {
+        "hour": 23,
+        "minute": 10,
+        "minute_source": "B8 bits 2-7",
+        "total_minutes": 1390
+      },
+      "settings": {
+        "power": "on",
+        "mode": null,
+        "temp": 23,
+        "fan": null,
+        "ifeel": false
+      },
+      "bytes": {
+        "B0": "0xAC",
+        "B1": "0xF5",
+        "B2": "0xE0",
+        "B3": "0x44",
+        "B4": "0x0A",
+        "B5": "0xE0",
+        "B6": "0x00",
+        "B7": "0xD7",
+        "B8": "0x2B",
+        "B9": "0x30",
+        "B10": "0x8E"
+      },
+      "hex_string": "AC F5 E0 44 0A E0 00 D7 2B 30 8E",
+      "packet_bit_count": 88,
+      "trailing_space_bit_count": 2
+    },
+    "combo/temp_24.json": {
+      "source_group": "combo",
+      "source_file": "util/combo/temp_24.json",
+      "complete": true,
+      "pulse_count": 183,
+      "settings_source": "existing combo annotations",
+      "time": {
+        "hour": 23,
+        "minute": 10,
+        "minute_source": "B8 bits 2-7",
+        "total_minutes": 1390
+      },
+      "settings": {
+        "power": "on",
+        "mode": null,
+        "temp": 24,
+        "fan": null,
+        "ifeel": false
+      },
+      "bytes": {
+        "B0": "0xAC",
+        "B1": "0xF5",
+        "B2": "0x20",
+        "B3": "0x45",
+        "B4": "0x0A",
+        "B5": "0xE0",
+        "B6": "0x00",
+        "B7": "0xD7",
+        "B8": "0x2B",
+        "B9": "0x30",
+        "B10": "0x92"
+      },
+      "hex_string": "AC F5 20 45 0A E0 00 D7 2B 30 92",
+      "packet_bit_count": 88,
+      "trailing_space_bit_count": 2
+    },
+    "recordings_batch/fan_auto.json": {
+      "source_group": "recordings_batch",
+      "source_file": "util/recordings_batch/fan_auto.json",
+      "complete": true,
+      "pulse_count": 183,
+      "settings_source": "B9 power/iFeel and filename target; other modes unknown",
+      "time": {
+        "hour": null,
+        "minute": 4,
+        "minute_source": "B8 bits 2-7"
+      },
+      "settings": {
+        "power": "on",
+        "mode": null,
+        "temp": null,
+        "fan": "AUTO",
+        "ifeel": false
+      },
+      "bytes": {
+        "B0": "0xAC",
+        "B1": "0xF5",
+        "B2": "0xA0",
+        "B3": "0x44",
+        "B4": "0x0E",
+        "B5": "0xE0",
+        "B6": "0x00",
+        "B7": "0x3F",
+        "B8": "0x11",
+        "B9": "0x30",
+        "B10": "0xD6"
+      },
+      "hex_string": "AC F5 A0 44 0E E0 00 3F 11 30 D6",
+      "packet_bit_count": 88,
+      "trailing_space_bit_count": 2
+    },
+    "recordings_batch/off.json": {
+      "source_group": "recordings_batch",
+      "source_file": "util/recordings_batch/off.json",
+      "complete": true,
+      "pulse_count": 183,
+      "settings_source": "B9 power/iFeel and filename target; other modes unknown",
+      "time": {
+        "hour": null,
+        "minute": 4,
+        "minute_source": "B8 bits 2-7"
+      },
+      "settings": {
+        "power": "off",
+        "mode": null,
+        "temp": null,
+        "fan": null,
+        "ifeel": false
+      },
+      "bytes": {
+        "B0": "0xAC",
+        "B1": "0xF5",
+        "B2": "0xA0",
+        "B3": "0x4C",
+        "B4": "0x0E",
+        "B5": "0xE0",
+        "B6": "0x00",
+        "B7": "0x37",
+        "B8": "0x11",
+        "B9": "0x10",
+        "B10": "0x56"
+      },
+      "hex_string": "AC F5 A0 4C 0E E0 00 37 11 10 56",
+      "packet_bit_count": 88,
+      "trailing_space_bit_count": 2
+    },
+    "recordings_batch/on.json": {
+      "source_group": "recordings_batch",
+      "source_file": "util/recordings_batch/on.json",
+      "complete": true,
+      "pulse_count": 183,
+      "settings_source": "B9 power/iFeel and filename target; other modes unknown",
+      "time": {
+        "hour": null,
+        "minute": 4,
+        "minute_source": "B8 bits 2-7"
+      },
+      "settings": {
+        "power": "on",
+        "mode": null,
+        "temp": null,
+        "fan": null,
+        "ifeel": false
+      },
+      "bytes": {
+        "B0": "0xAC",
+        "B1": "0xF5",
+        "B2": "0xA0",
+        "B3": "0x4C",
+        "B4": "0x0E",
+        "B5": "0xE0",
+        "B6": "0x00",
+        "B7": "0xA7",
+        "B8": "0x10",
+        "B9": "0x30",
+        "B10": "0x92"
+      },
+      "hex_string": "AC F5 A0 4C 0E E0 00 A7 10 30 92",
+      "packet_bit_count": 88,
+      "trailing_space_bit_count": 2
+    },
+    "recordings_batch/temp_15.json": {
+      "source_group": "recordings_batch",
+      "source_file": "util/recordings_batch/temp_15.json",
+      "complete": true,
+      "pulse_count": 183,
+      "settings_source": "B9 power/iFeel and filename target; other modes unknown",
+      "time": {
+        "hour": null,
+        "minute": 8,
+        "minute_source": "B8 bits 2-7"
+      },
+      "settings": {
+        "power": "on",
+        "mode": null,
+        "temp": 15,
+        "fan": null,
+        "ifeel": false
+      },
+      "bytes": {
+        "B0": "0xAC",
+        "B1": "0xF5",
+        "B2": "0xE0",
+        "B3": "0xC2",
+        "B4": "0x0E",
+        "B5": "0xE0",
+        "B6": "0x00",
+        "B7": "0x5F",
+        "B8": "0x20",
+        "B9": "0x30",
+        "B10": "0x8A"
+      },
+      "hex_string": "AC F5 E0 C2 0E E0 00 5F 20 30 8A",
+      "packet_bit_count": 88,
+      "trailing_space_bit_count": 2
+    },
+    "recordings_batch/temp_16.json": {
+      "source_group": "recordings_batch",
+      "source_file": "util/recordings_batch/temp_16.json",
+      "complete": true,
+      "pulse_count": 183,
+      "settings_source": "B9 power/iFeel and filename target; other modes unknown",
+      "time": {
+        "hour": null,
+        "minute": 8,
+        "minute_source": "B8 bits 2-7"
+      },
+      "settings": {
+        "power": "on",
+        "mode": null,
+        "temp": 16,
+        "fan": null,
+        "ifeel": false
+      },
+      "bytes": {
+        "B0": "0xAC",
+        "B1": "0xF5",
+        "B2": "0x20",
+        "B3": "0xC3",
+        "B4": "0x0E",
+        "B5": "0xE0",
+        "B6": "0x00",
+        "B7": "0x67",
+        "B8": "0x20",
+        "B9": "0x30",
+        "B10": "0xAE"
+      },
+      "hex_string": "AC F5 20 C3 0E E0 00 67 20 30 AE",
+      "packet_bit_count": 88,
+      "trailing_space_bit_count": 2
+    },
+    "recordings_batch/temp_17.json": {
+      "source_group": "recordings_batch",
+      "source_file": "util/recordings_batch/temp_17.json",
+      "complete": true,
+      "pulse_count": 183,
+      "settings_source": "B9 power/iFeel and filename target; other modes unknown",
+      "time": {
+        "hour": null,
+        "minute": 8,
+        "minute_source": "B8 bits 2-7"
+      },
+      "settings": {
+        "power": "on",
+        "mode": null,
+        "temp": 17,
+        "fan": null,
+        "ifeel": false
+      },
+      "bytes": {
+        "B0": "0xAC",
+        "B1": "0xF5",
+        "B2": "0x60",
+        "B3": "0xC3",
+        "B4": "0x0E",
+        "B5": "0xE0",
+        "B6": "0x00",
+        "B7": "0x67",
+        "B8": "0x20",
+        "B9": "0x30",
+        "B10": "0xAE"
+      },
+      "hex_string": "AC F5 60 C3 0E E0 00 67 20 30 AE",
+      "packet_bit_count": 88,
+      "trailing_space_bit_count": 2
+    },
+    "recordings_batch/temp_18.json": {
+      "source_group": "recordings_batch",
+      "source_file": "util/recordings_batch/temp_18.json",
+      "complete": true,
+      "pulse_count": 183,
+      "settings_source": "B9 power/iFeel and filename target; other modes unknown",
+      "time": {
+        "hour": null,
+        "minute": 8,
+        "minute_source": "B8 bits 2-7"
+      },
+      "settings": {
+        "power": "on",
+        "mode": null,
+        "temp": 18,
+        "fan": null,
+        "ifeel": false
+      },
+      "bytes": {
+        "B0": "0xAC",
+        "B1": "0xF5",
+        "B2": "0xA0",
+        "B3": "0xC3",
+        "B4": "0x0E",
+        "B5": "0xE0",
+        "B6": "0x00",
+        "B7": "0x67",
+        "B8": "0x20",
+        "B9": "0x30",
+        "B10": "0xAE"
+      },
+      "hex_string": "AC F5 A0 C3 0E E0 00 67 20 30 AE",
+      "packet_bit_count": 88,
+      "trailing_space_bit_count": 2
+    },
+    "recordings_batch/temp_19.json": {
+      "source_group": "recordings_batch",
+      "source_file": "util/recordings_batch/temp_19.json",
+      "complete": true,
+      "pulse_count": 183,
+      "settings_source": "B9 power/iFeel and filename target; other modes unknown",
+      "time": {
+        "hour": null,
+        "minute": 7,
+        "minute_source": "B8 bits 2-7"
+      },
+      "settings": {
+        "power": "on",
+        "mode": null,
+        "temp": 19,
+        "fan": null,
+        "ifeel": false
+      },
+      "bytes": {
+        "B0": "0xAC",
+        "B1": "0xF5",
+        "B2": "0xE0",
+        "B3": "0xA3",
+        "B4": "0x0E",
+        "B5": "0xE0",
+        "B6": "0x00",
+        "B7": "0x57",
+        "B8": "0x1F",
+        "B9": "0x30",
+        "B10": "0xEA"
+      },
+      "hex_string": "AC F5 E0 A3 0E E0 00 57 1F 30 EA",
+      "packet_bit_count": 88,
+      "trailing_space_bit_count": 2
+    },
+    "recordings_batch/temp_20.json": {
+      "source_group": "recordings_batch",
+      "source_file": "util/recordings_batch/temp_20.json",
+      "complete": true,
+      "pulse_count": 183,
+      "settings_source": "B9 power/iFeel and filename target; other modes unknown",
+      "time": {
+        "hour": null,
+        "minute": 7,
+        "minute_source": "B8 bits 2-7"
+      },
+      "settings": {
+        "power": "on",
+        "mode": null,
+        "temp": 20,
+        "fan": null,
+        "ifeel": false
+      },
+      "bytes": {
+        "B0": "0xAC",
+        "B1": "0xF5",
+        "B2": "0x20",
+        "B3": "0xA4",
+        "B4": "0x0E",
+        "B5": "0xE0",
+        "B6": "0x00",
+        "B7": "0x57",
+        "B8": "0x1F",
+        "B9": "0x30",
+        "B10": "0xEE"
+      },
+      "hex_string": "AC F5 20 A4 0E E0 00 57 1F 30 EE",
+      "packet_bit_count": 88,
+      "trailing_space_bit_count": 2
+    },
+    "recordings_batch/temp_21.json": {
+      "source_group": "recordings_batch",
+      "source_file": "util/recordings_batch/temp_21.json",
+      "complete": true,
+      "pulse_count": 183,
+      "settings_source": "B9 power/iFeel and filename target; other modes unknown",
+      "time": {
+        "hour": null,
+        "minute": 7,
+        "minute_source": "B8 bits 2-7"
+      },
+      "settings": {
+        "power": "on",
+        "mode": null,
+        "temp": 21,
+        "fan": null,
+        "ifeel": false
+      },
+      "bytes": {
+        "B0": "0xAC",
+        "B1": "0xF5",
+        "B2": "0x60",
+        "B3": "0xA4",
+        "B4": "0x0E",
+        "B5": "0xE0",
+        "B6": "0x00",
+        "B7": "0x57",
+        "B8": "0x1F",
+        "B9": "0x30",
+        "B10": "0xEE"
+      },
+      "hex_string": "AC F5 60 A4 0E E0 00 57 1F 30 EE",
+      "packet_bit_count": 88,
+      "trailing_space_bit_count": 2
+    },
+    "recordings_batch/temp_22.json": {
+      "source_group": "recordings_batch",
+      "source_file": "util/recordings_batch/temp_22.json",
+      "complete": true,
+      "pulse_count": 183,
+      "settings_source": "B9 power/iFeel and filename target; other modes unknown",
+      "time": {
+        "hour": null,
+        "minute": 7,
+        "minute_source": "B8 bits 2-7"
+      },
+      "settings": {
+        "power": "on",
+        "mode": null,
+        "temp": 22,
+        "fan": null,
+        "ifeel": false
+      },
+      "bytes": {
+        "B0": "0xAC",
+        "B1": "0xF5",
+        "B2": "0xA0",
+        "B3": "0xA4",
+        "B4": "0x0E",
+        "B5": "0xE0",
+        "B6": "0x00",
+        "B7": "0x57",
+        "B8": "0x1F",
+        "B9": "0x30",
+        "B10": "0xEE"
+      },
+      "hex_string": "AC F5 A0 A4 0E E0 00 57 1F 30 EE",
+      "packet_bit_count": 88,
+      "trailing_space_bit_count": 2
+    },
+    "recordings_batch/temp_23.json": {
+      "source_group": "recordings_batch",
+      "source_file": "util/recordings_batch/temp_23.json",
+      "complete": true,
+      "pulse_count": 183,
+      "settings_source": "B9 power/iFeel and filename target; other modes unknown",
+      "time": {
+        "hour": null,
+        "minute": 7,
+        "minute_source": "B8 bits 2-7"
+      },
+      "settings": {
+        "power": "on",
+        "mode": null,
+        "temp": 23,
+        "fan": null,
+        "ifeel": false
+      },
+      "bytes": {
+        "B0": "0xAC",
+        "B1": "0xF5",
+        "B2": "0xE0",
+        "B3": "0xA4",
+        "B4": "0x0E",
+        "B5": "0xE0",
+        "B6": "0x00",
+        "B7": "0x57",
+        "B8": "0x1F",
+        "B9": "0x30",
+        "B10": "0xEE"
+      },
+      "hex_string": "AC F5 E0 A4 0E E0 00 57 1F 30 EE",
+      "packet_bit_count": 88,
+      "trailing_space_bit_count": 2
+    },
+    "recordings_batch/temp_24.json": {
+      "source_group": "recordings_batch",
+      "source_file": "util/recordings_batch/temp_24.json",
+      "complete": true,
+      "pulse_count": 183,
+      "settings_source": "B9 power/iFeel and filename target; other modes unknown",
+      "time": {
+        "hour": null,
+        "minute": 7,
+        "minute_source": "B8 bits 2-7"
+      },
+      "settings": {
+        "power": "on",
+        "mode": null,
+        "temp": 24,
+        "fan": null,
+        "ifeel": false
+      },
+      "bytes": {
+        "B0": "0xAC",
+        "B1": "0xF5",
+        "B2": "0x20",
+        "B3": "0xA5",
+        "B4": "0x0E",
+        "B5": "0xE0",
+        "B6": "0x00",
+        "B7": "0x57",
+        "B8": "0x1F",
+        "B9": "0x30",
+        "B10": "0xF2"
+      },
+      "hex_string": "AC F5 20 A5 0E E0 00 57 1F 30 F2",
+      "packet_bit_count": 88,
+      "trailing_space_bit_count": 2
+    },
+    "recordings_batch/temp_25.json": {
+      "source_group": "recordings_batch",
+      "source_file": "util/recordings_batch/temp_25.json",
+      "complete": true,
+      "pulse_count": 183,
+      "settings_source": "B9 power/iFeel and filename target; other modes unknown",
+      "time": {
+        "hour": null,
+        "minute": 7,
+        "minute_source": "B8 bits 2-7"
+      },
+      "settings": {
+        "power": "on",
+        "mode": null,
+        "temp": 25,
+        "fan": null,
+        "ifeel": false
+      },
+      "bytes": {
+        "B0": "0xAC",
+        "B1": "0xF5",
+        "B2": "0x60",
+        "B3": "0xA5",
+        "B4": "0x0E",
+        "B5": "0xE0",
+        "B6": "0x00",
+        "B7": "0x5F",
+        "B8": "0x1F",
+        "B9": "0x30",
+        "B10": "0x12"
+      },
+      "hex_string": "AC F5 60 A5 0E E0 00 5F 1F 30 12",
+      "packet_bit_count": 88,
+      "trailing_space_bit_count": 2
+    },
+    "recordings_batch/temp_26.json": {
+      "source_group": "recordings_batch",
+      "source_file": "util/recordings_batch/temp_26.json",
+      "complete": true,
+      "pulse_count": 183,
+      "settings_source": "B9 power/iFeel and filename target; other modes unknown",
+      "time": {
+        "hour": null,
+        "minute": 7,
+        "minute_source": "B8 bits 2-7"
+      },
+      "settings": {
+        "power": "on",
+        "mode": null,
+        "temp": 26,
+        "fan": null,
+        "ifeel": false
+      },
+      "bytes": {
+        "B0": "0xAC",
+        "B1": "0xF5",
+        "B2": "0xA0",
+        "B3": "0xA5",
+        "B4": "0x0E",
+        "B5": "0xE0",
+        "B6": "0x00",
+        "B7": "0x5F",
+        "B8": "0x1F",
+        "B9": "0x30",
+        "B10": "0x12"
+      },
+      "hex_string": "AC F5 A0 A5 0E E0 00 5F 1F 30 12",
+      "packet_bit_count": 88,
+      "trailing_space_bit_count": 2
+    },
+    "recordings_batch/temp_27.json": {
+      "source_group": "recordings_batch",
+      "source_file": "util/recordings_batch/temp_27.json",
+      "complete": true,
+      "pulse_count": 183,
+      "settings_source": "B9 power/iFeel and filename target; other modes unknown",
+      "time": {
+        "hour": null,
+        "minute": 7,
+        "minute_source": "B8 bits 2-7"
+      },
+      "settings": {
+        "power": "on",
+        "mode": null,
+        "temp": 27,
+        "fan": null,
+        "ifeel": false
+      },
+      "bytes": {
+        "B0": "0xAC",
+        "B1": "0xF5",
+        "B2": "0xE0",
+        "B3": "0xA5",
+        "B4": "0x0E",
+        "B5": "0xE0",
+        "B6": "0x00",
+        "B7": "0x5F",
+        "B8": "0x1F",
+        "B9": "0x30",
+        "B10": "0x12"
+      },
+      "hex_string": "AC F5 E0 A5 0E E0 00 5F 1F 30 12",
+      "packet_bit_count": 88,
+      "trailing_space_bit_count": 2
+    },
+    "recordings_batch/temp_28.json": {
+      "source_group": "recordings_batch",
+      "source_file": "util/recordings_batch/temp_28.json",
+      "complete": true,
+      "pulse_count": 183,
+      "settings_source": "B9 power/iFeel and filename target; other modes unknown",
+      "time": {
+        "hour": null,
+        "minute": 7,
+        "minute_source": "B8 bits 2-7"
+      },
+      "settings": {
+        "power": "on",
+        "mode": null,
+        "temp": 28,
+        "fan": null,
+        "ifeel": false
+      },
+      "bytes": {
+        "B0": "0xAC",
+        "B1": "0xF5",
+        "B2": "0x20",
+        "B3": "0xA6",
+        "B4": "0x0E",
+        "B5": "0xE0",
+        "B6": "0x00",
+        "B7": "0x5F",
+        "B8": "0x1F",
+        "B9": "0x30",
+        "B10": "0x16"
+      },
+      "hex_string": "AC F5 20 A6 0E E0 00 5F 1F 30 16",
+      "packet_bit_count": 88,
+      "trailing_space_bit_count": 2
+    },
+    "recordings_batch/temp_29.json": {
+      "source_group": "recordings_batch",
+      "source_file": "util/recordings_batch/temp_29.json",
+      "complete": true,
+      "pulse_count": 183,
+      "settings_source": "B9 power/iFeel and filename target; other modes unknown",
+      "time": {
+        "hour": null,
+        "minute": 7,
+        "minute_source": "B8 bits 2-7"
+      },
+      "settings": {
+        "power": "on",
+        "mode": null,
+        "temp": 29,
+        "fan": null,
+        "ifeel": false
+      },
+      "bytes": {
+        "B0": "0xAC",
+        "B1": "0xF5",
+        "B2": "0x60",
+        "B3": "0xA6",
+        "B4": "0x0E",
+        "B5": "0xE0",
+        "B6": "0x00",
+        "B7": "0x5F",
+        "B8": "0x1F",
+        "B9": "0x30",
+        "B10": "0x16"
+      },
+      "hex_string": "AC F5 60 A6 0E E0 00 5F 1F 30 16",
+      "packet_bit_count": 88,
+      "trailing_space_bit_count": 2
+    },
+    "recordings_batch/temp_30.json": {
+      "source_group": "recordings_batch",
+      "source_file": "util/recordings_batch/temp_30.json",
+      "complete": true,
+      "pulse_count": 183,
+      "settings_source": "B9 power/iFeel and filename target; other modes unknown",
+      "time": {
+        "hour": null,
+        "minute": 7,
+        "minute_source": "B8 bits 2-7"
+      },
+      "settings": {
+        "power": "on",
+        "mode": null,
+        "temp": 30,
+        "fan": null,
+        "ifeel": false
+      },
+      "bytes": {
+        "B0": "0xAC",
+        "B1": "0xF5",
+        "B2": "0xA0",
+        "B3": "0xA6",
+        "B4": "0x0E",
+        "B5": "0xE0",
+        "B6": "0x00",
+        "B7": "0x5F",
+        "B8": "0x1F",
+        "B9": "0x30",
+        "B10": "0x16"
+      },
+      "hex_string": "AC F5 A0 A6 0E E0 00 5F 1F 30 16",
+      "packet_bit_count": 88,
+      "trailing_space_bit_count": 2
+    }
+  }
+}

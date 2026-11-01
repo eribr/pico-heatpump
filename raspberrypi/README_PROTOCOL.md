@@ -16,15 +16,13 @@ Core module for byte generation:
 - All commands are generated dynamically with current time
 - MASTERS and CONFIG kept as `_LEGACY_*` for reference
 
-### `test_combo_verification.py`
-- Test framework that verifies byte generation
-- Uses `combo_metadata.json` as test data
-- **Result: 10/16 tests pass** (all important functions)
+### `test_packet_generator.py`
+- Compares generated packets with decoded combo and recordings-batch captures
+- Reports incomplete captures separately from failed comparisons
 
-### `combo_metadata.json`
-- Metadata for all combo recordings
-- Documents time, settings and expected bytes
-- Used by test framework
+### `packet_generator_metadata.json`
+- Metadata for decoded combo and recordings-batch captures
+- Stores packet bytes, annotated settings, and available clock information
 
 ## Usage
 
@@ -71,41 +69,50 @@ curl -u :password \
 B0-B1:  0xAC 0xF5           (header)
 B2:     Mode/temperature
 B3:     Fan/temperature details
-B4:     Time-related (toggles between 0x0A and 0x1A)
+B4:     Unresolved; combo captures use 0x0A/0x1A, batch captures use 0x0E
 B5-B6:  0xE0 0x00           (constant)
 B7:     Mode-specific code
-B8:     Minutes (encoded in high 6 bits)
+B8:     Candidate minute in bits 2-7; batch hour is unavailable
 B9:     Power/IFeel
 B10:    Checksum
 ```
 
-**Checksum formula**: `(sum(B0:B1 + B3:B9) * 4 + 0x8A) & 0xFF`
-*NOTE: Skips B2!*
+The 35 complete captures all match the observed checksum formula
+`(sum(B0:B9) * 4 + 0x0A) & 0xFF`. The generator currently uses a different
+formula that skips B2 and adds `0x8A`.
 
 ## Testing and Verification
 
-Run tests:
+Run the packet-generator verification:
 ```bash
-python test_combo_verification.py
+python test_packet_generator.py
 ```
+
+## Current Verification Findings
+
+The current run reports **8 pass, 27 fail, and 1 skipped** across 36 metadata
+entries. All 8 passes are complete combo captures; all 19 batch captures fail
+with the current generator. `combo/fan_1.json` is only 3 of 11 bytes and is
+skipped as incomplete.
+
+The failures are not limited to checksum calculation:
+- Four combo cases differ only at B10; the observed checksum formula above
+    matches all 35 captured packets.
+- Other combo mismatches include B2 for `cold_moisture` and `heat_2`, and B7
+    for `ifeel` and `no_ifeel`.
+- Batch mismatches include B2/B3/B7 across the temperature sweep, plus B4/B8
+    clock-related bytes. Batch metadata only identifies the named setting; other
+    mode/fan settings are unknown, so those comparisons need more annotation.
+- The generator accepts `hour`, but currently does not use it to create bytes.
+
+These results establish mismatches against the captures, but do not yet
+distinguish unsupported settings from incorrect annotations for every batch
+recording.
 
 Test protocol module:
 ```bash
 python nibe_protocol.py
 ```
-
-## Test Results
-
-✅ **10/16 combo recordings verified correctly**
-
-Working:
-- temp_22, temp_23, temp_24 (temperature)
-- fan_2, fan_3, fan_3_auto (fan speeds)
-- on, off (power)
-- ifeel, no_ifeel (sensor)
-- heat_2 (heat mode)
-
-The 6 that failed (cold*, heat_1, heat_auto) appear to have incorrect checksum baked into the original recordings.
 
 ## Migration from Old System
 
@@ -153,15 +160,15 @@ If new temperatures or modes are needed:
 1. Record new commands
 2. Analyze bytes with existing tools in `util/`
 3. Update `generate_nibe_packet()` in `nibe_protocol.py`
-4. Add test cases to `combo_metadata.json`
-5. Verify with `test_combo_verification.py`
+4. Add decoded capture metadata to `packet_generator_metadata.json`
+5. Verify with `test_packet_generator.py`
 
 ## Support
 
 For questions or issues, see:
-- `combo_metadata.json` - Test data and byte mappings
+- `packet_generator_metadata.json` - Decoded capture test data
 - `nibe_protocol.py` - Core byte generation logic
-- `test_combo_verification.py` - Test framework
+- `test_packet_generator.py` - Packet-generator verification
 
 ## License
 
