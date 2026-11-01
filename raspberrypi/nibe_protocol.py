@@ -109,10 +109,8 @@ def generate_nibe_packet(hour, minute, power="on", mode=None, temp=None, fan=Non
         packet[9] = 0x30
     
     # B10: Checksum
-    # Formula: (sum(B0:B1 + B3:B9) * 4 + 0x8A) & 0xFF
-    # NOTE: Skips B2!
-    bytes_to_sum = packet[0:2] + packet[3:10]
-    packet[10] = (sum(bytes_to_sum) * 4 + 0x8A) & 0xFF
+    # Observed formula across all complete recordings: (sum(B0:B9) * 4 + 0x0A) & 0xFF
+    packet[10] = (sum(packet[0:10]) * 4 + 0x0A) & 0xFF
     
     return packet
 

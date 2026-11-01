@@ -2,7 +2,7 @@
 
 ## Overview
 
-The controller has been updated from static pre-recorded signals (MASTERS) to **dynamic byte generation**. This solves the daylight saving time issue by always including the current time (GMT+1) in the signals.
+The controller has been updated from static pre-recorded signals (MASTERS) to **dynamic byte generation**. Packet generation is still being verified against captured signals; the current tests show unresolved temperature, mode, and clock encodings.
 
 ## New Files
 
@@ -53,15 +53,7 @@ curl -u :password \
 
 ## Time Encoding and DST
 
-### The Problem (solved!)
-- Heat pump is **locked to summer time (GMT+1)** and never switches
-- When Raspberry Pi switched to winter time, checksum became invalid
-- Old static MASTERS stopped working
-
-### The Solution
-- All commands now use `get_current_time_gmt1()`
-- Time is encoded into the byte packet automatically
-- **GMT+1 is always used**, regardless of summer or winter
+The controller supplies GMT+1 hour and minute values to the generator. The current generator does not use `hour`; its B4/B8 clock encoding is not verified across both capture groups. The batch recordings have no reliable hour annotation, and their B4 value differs from the combo captures.
 
 ## Byte Protocol (simplified)
 
@@ -90,20 +82,23 @@ python test_packet_generator.py
 
 ## Current Verification Findings
 
-The current run reports **8 pass, 27 fail, and 1 skipped** across 36 metadata
-entries. All 8 passes are complete combo captures; all 19 batch captures fail
+The current run reports **12 pass, 23 fail, and 1 skipped** across 36 metadata
+entries. All 12 passes are complete combo captures; all 19 batch captures fail
 with the current generator. `combo/fan_1.json` is only 3 of 11 bytes and is
 skipped as incomplete.
 
 The failures are not limited to checksum calculation:
-- Four combo cases differ only at B10; the observed checksum formula above
-    matches all 35 captured packets.
-- Other combo mismatches include B2 for `cold_moisture` and `heat_2`, and B7
-    for `ifeel` and `no_ifeel`.
-- Batch mismatches include B2/B3/B7 across the temperature sweep, plus B4/B8
-    clock-related bytes. Batch metadata only identifies the named setting; other
-    mode/fan settings are unknown, so those comparisons need more annotation.
-- The generator accepts `hour`, but currently does not use it to create bytes.
+- Updating B10 to the observed checksum formula removed four combo failures;
+    the formula matches all 35 complete captured packets.
+- Remaining combo payload mismatches include B2 for `cold_moisture` and
+    `heat_2`, and B7 for `ifeel` and `no_ifeel`.
+- All batch temperature captures have B2/B3/B7 combinations that the current
+    generator cannot produce with any documented mode/fan combination at the
+    labeled temperature. Batch settings still leave other operating modes
+    unknown.
+- Batch B4 is consistently `0x0E`, unlike combo B4 (`0x0A`/`0x1A`), and the
+    current B8 formula does not reproduce the batch captures. The hour argument
+    is currently unused.
 
 These results establish mismatches against the captures, but do not yet
 distinguish unsupported settings from incorrect annotations for every batch
