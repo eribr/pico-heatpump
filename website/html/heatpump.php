@@ -28,11 +28,6 @@ function read_state_cache($cache_path, $ttl_seconds) {
         return null;
     }
 
-    $age = time() - filemtime($cache_path);
-    if ($age > $ttl_seconds) {
-        return null;
-    }
-
     $json = @file_get_contents($cache_path);
     if ($json === false) {
         return null;
@@ -53,31 +48,6 @@ function write_state_cache($cache_path, $state) {
         return;
     }
     @file_put_contents($cache_path, $json);
-}
-
-function fetch_state_from_api($api_base_url, $api_password) {
-    $url = $api_base_url . '/state';
-    $ch = curl_init();
-    curl_setopt($ch, CURLOPT_URL, $url);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($ch, CURLOPT_TIMEOUT, 10);
-    curl_setopt($ch, CURLOPT_USERPWD, ':' . $api_password);
-    curl_setopt($ch, CURLOPT_HTTPGET, true);
-
-    $response = curl_exec($ch);
-    $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-    curl_close($ch);
-
-    if ($http_code !== 200 || $response === false) {
-        return null;
-    }
-
-    $data = json_decode($response, true);
-    if (!is_array($data) || !isset($data['state']) || !is_array($data['state'])) {
-        return null;
-    }
-
-    return $data['state'];
 }
 
 function send_state_to_api($api_base_url, $api_password, $payload) {
@@ -102,6 +72,10 @@ function send_state_to_api($api_base_url, $api_password, $payload) {
     }
 
     $data = json_decode($response, true);
+    if (!is_array($data) || ($data['status'] ?? null) !== 'success') {
+        return ['ok' => false, 'http_code' => $http_code, 'body' => $response];
+    }
+
     return ['ok' => true, 'data' => $data];
 }
 
@@ -172,16 +146,10 @@ if (!isset($_SESSION['authenticated']) || $_SESSION['authenticated'] !== true):
     exit;
 endif;
 
-// 5. Load current state from local cache, falling back to API only occasionally
+// 5. Load current state from the local cache; defaults apply when it is empty or expired.
 $cached_state = read_state_cache($cache_path, $cache_ttl_seconds);
 if (is_array($cached_state)) {
     $state = $cached_state;
-} else {
-    $api_state = fetch_state_from_api($api_base_url, $api_password);
-    if (is_array($api_state)) {
-        $state = $api_state;
-        write_state_cache($cache_path, $state);
-    }
 }
 
 // 6. Handle SET request for the whole state object
@@ -194,15 +162,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['set_state'])) {
     $payload['fan'] = $_POST['fan'] ?? null;
     $payload['ifeel'] = isset($_POST['ifeel']) ? true : false;
 
-    // Keep only explicitly provided values; for a checkbox false is still a real value.
-    $payload = array_filter($payload, function ($value) {
-        return $value !== null && $value !== '';
-    }, ARRAY_FILTER_USE_BOTH);
-
     $result = send_state_to_api($api_base_url, $api_password, $payload);
     if ($result['ok']) {
-        $new_state = $result['data']['state'] ?? $state;
-        $state = $new_state;
+        $payload['temp'] = (int)$payload['temp'];
+        $state = $payload;
         write_state_cache($cache_path, $state);
         $message = "<div class='success'>Settings updated successfully.</div>";
     } else {

@@ -21,11 +21,11 @@ python3 nibe_server.py
 
 Call on it with
 ```
-# Set temperature to 22
-curl -X PUT http://localhost:5000/api/temp/22 -u :your_secret_password_here
-
-# Turn Power Off
-curl -X PUT http://localhost:5000/api/power/off -u :your_secret_password_here
+# Set the complete heat pump state
+curl -u :your_secret_password_here \
+    -H 'Content-Type: application/json' \
+    -X POST http://localhost:5000/api/set \
+    -d '{"power":"off","mode":"HEAT","temp":22,"fan":"AUTO","ifeel":false}'
 ```
 
 Add as a service by modifying the `nibe.service`to match your paths and enable it with

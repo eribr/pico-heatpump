@@ -36,34 +36,21 @@ from nibe_controller import NibeController
 nibe = NibeController()
 
 # Set temperature (uses current time automatically)
-nibe.set_temperature(23)
-
-# Turn on/off
-nibe.power_on()
-nibe.power_off()
-
-# Set mode
-nibe.set_mode("HEAT", fan="AUTO")
-
-# Fan auto
-nibe.set_fan_auto()
+# Set the complete configuration (uses current time automatically)
+nibe.set(power="on", mode="HEAT", temp=23, fan="AUTO", ifeel=False)
 
 nibe.close()
 ```
 
 ### Via HTTP API (nibe_server.py)
 
-The API works as before, but now uses dynamic generation:
+The API uses one endpoint to set the complete heat pump state:
 
 ```bash
-# Set temperature
-curl -u :password -X PUT http://raspberry-pi:5000/api/temp/23
-
-# Turn on/off
-curl -u :password -X PUT http://raspberry-pi:5000/api/power/on
-
-# Fan auto
-curl -u :password -X PUT http://raspberry-pi:5000/api/fan/auto
+curl -u :password \
+    -H 'Content-Type: application/json' \
+    -X POST http://raspberry-pi:5000/api/set \
+    -d '{"power":"on","mode":"HEAT","temp":23,"fan":"AUTO","ifeel":false}'
 ```
 
 ## Time Encoding and DST
@@ -136,7 +123,7 @@ CONFIG = {
     ...
 }
 
-nibe.set_temperature(23)  # Used bit-flips on static data
+nibe.set(power="on", mode="HEAT", temp=23, fan="AUTO", ifeel=False)
 ```
 
 ### Now (Dynamic generation)
@@ -149,7 +136,7 @@ packet = generate_nibe_packet(
     power="on"
 )  # Returns [0xAC, 0xF5, 0xE0, ...]
 
-nibe.set_temperature(23)  # Generates fresh signal with current time
+nibe.set(power="on", mode="HEAT", temp=23, fan="AUTO", ifeel=False)
 ```
 
 ## Advantages of Dynamic Generation

@@ -39,16 +39,7 @@ class NibeServer:
 
     def _setup_routes(self):
 
-        @self.app.route('/api/state', methods=['GET'])
-        @self.require_auth
-        def get_state():
-            return jsonify({
-                "status": "ok",
-                "state": self.controller.state.copy()
-            })
-        
         @self.app.route('/api/set', methods=['PUT', 'POST'])
-        @self.app.route('/api/state', methods=['PUT', 'POST'])
         @self.require_auth
         def set_all():
             payload = request.get_json(silent=True)
@@ -60,6 +51,11 @@ class NibeServer:
             if unknown:
                 return jsonify({
                     "error": f"Unsupported fields: {sorted(unknown)}. Allowed: {sorted(allowed)}"
+                }), 400
+            missing = allowed - set(payload.keys())
+            if missing:
+                return jsonify({
+                    "error": f"Missing fields: {sorted(missing)}"
                 }), 400
 
             try:
@@ -73,40 +69,7 @@ class NibeServer:
             except ValueError as exc:
                 return jsonify({"error": str(exc)}), 400
 
-            return jsonify({
-                "status": "success" if success else "failed",
-                "state": self.controller.state.copy(),
-            })
-
-        @self.app.route('/api/power/<state>', methods=['PUT'])
-        @self.require_auth
-        def set_power(state):
-            state = state.lower()
-            if state == 'on':
-                success = self.controller.power_on()
-            elif state == 'off':
-                success = self.controller.power_off()
-            else:
-                return jsonify({"error": "Invalid state. Use 'on' or 'off'"}), 400
-
-            return jsonify({"status": "success" if success else "failed", "command": f"power {state}"})
-
-        @self.app.route('/api/temp/<int:temp>', methods=['PUT'])
-        @self.require_auth
-        def set_temp(temp):
-            if 15 <= temp <= 30:  # Based on your previous config range
-                success = self.controller.set_temperature(temp)
-                return jsonify({"status": "success" if success else "failed", "temperature": temp})
-            else:
-                return jsonify({"error": "Temperature out of range (15-30)"}), 400
-
-        @self.app.route('/api/fan/<mode>', methods=['PUT'])
-        @self.require_auth
-        def set_fan(mode):
-            if mode.lower() == 'auto':
-                success = self.controller.set_fan_auto()
-                return jsonify({"status": "success" if success else "failed", "mode": "auto"})
-            return jsonify({"error": "Invalid fan mode. Use 'auto'"}), 400
+            return jsonify({"status": "success" if success else "failed"})
 
     def run(self):
         try:
