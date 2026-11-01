@@ -3,7 +3,7 @@
   "_notes": [
     "Payload spaces are decoded with a 1500 us threshold, LSB-first, into up to 11 bytes.",
     "The candidate minute is extracted from B8 bits 2-7. The batch pulse captures do not establish an hour; combo hours are retained from their prior annotations.",
-    "fan_1.json is a truncated 29-bit capture and is retained as incomplete, not compared as a full packet. Batch settings only assert the named target; other mode fields remain unknown."
+    "Batch settings only assert the named target; other mode fields remain unknown."
   ],
   "recordings": {
     "combo/cold.json": {
@@ -113,33 +113,6 @@
       "hex_string": "AC F5 48 64 0A E0 00 F7 2B 30 2E",
       "packet_bit_count": 88,
       "trailing_space_bit_count": 2
-    },
-    "combo/fan_1.json": {
-      "source_group": "combo",
-      "source_file": "util/combo/fan_1.json",
-      "complete": false,
-      "pulse_count": 61,
-      "settings_source": "filename target; capture incomplete",
-      "time": {
-        "hour": null,
-        "minute": null,
-        "minute_source": null
-      },
-      "settings": {
-        "power": "on",
-        "mode": "FAN",
-        "temp": null,
-        "fan": "1",
-        "ifeel": false
-      },
-      "bytes": {
-        "B0": "0xAC",
-        "B1": "0xF5",
-        "B2": "0x60"
-      },
-      "hex_string": "AC F5 60",
-      "packet_bit_count": 29,
-      "trailing_space_bit_count": 0
     },
     "combo/fan_2.json": {
       "source_group": "combo",

@@ -82,10 +82,9 @@ python test_packet_generator.py
 
 ## Current Verification Findings
 
-The current run reports **12 pass, 23 fail, and 1 skipped** across 36 metadata
-entries. All 12 passes are complete combo captures; all 19 batch captures fail
-with the current generator. `combo/fan_1.json` is only 3 of 11 bytes and is
-skipped as incomplete.
+The current run reports **12 pass and 23 fail** across 35 metadata entries.
+All 12 passes are combo captures; all 19 batch captures fail with the current
+generator.
 
 The failures are not limited to checksum calculation:
 - Updating B10 to the observed checksum formula removed four combo failures;
